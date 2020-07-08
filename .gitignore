@@ -5,6 +5,7 @@
 *.py[cod]
 *.swp
 *.conf
+*.xml
 .coverage
 .svn
 .tox
