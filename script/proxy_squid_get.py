@@ -8,15 +8,17 @@ def poc(url):
     
     ''' 
     usage:
-        python POC-T.py -s rancher-unauth -aF "header=rancher"
-    app="Squid" && after="2019-01-01" && country="US" && port="3128"
+       python2 POC-T.py -s proxy_squid_get -aF "port=3128&&app=Squid" --limit 10000 -t 50
+      python2 POC-T.py -s proxy_squid_get -aF "app=Tinyproxy"
 
     '''
     
     # parsing
     ip = url.split(":")[0]
-    port = 3128 if url.split(":")[1] == '3128' else url.split(":")[1] 
-    
+    try:
+        port = 80 if url.split(":")[1] == '80' else url.split(":")[1]
+    except:
+        return False
     proxies = {
     "http": "http://{0}:{1}".format(ip,port),
      "https": "https://{0}:{1}".format(ip,port),
