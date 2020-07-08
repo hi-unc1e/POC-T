@@ -60,10 +60,10 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
             for item in resp.get('results'):
                 #print(item)
                 result.append(item[0])
-            if resp.get('size') < 100:
-                logger.info("{0} items found!".format(resp.get('size')))
-            elif resp.get('size') >= 100:
+            if resp.get('size') >= 100 and resp.get('size') > limit  : # real< limit
                 logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
+            else:# real < 100 or limit > real
+                logger.info("{0} items found!".format(resp.get('size')))
     except Exception, e:
         sys.exit(logger.error(getSafeExString(e)))
     finally:
