@@ -5,6 +5,7 @@
 
 """
 Maccms 8.x Remote Code Execution
+python2 POC-T.py -s maccms8-rce -aF "app=maccms&&country!=CN"
 """
 
 import requests
