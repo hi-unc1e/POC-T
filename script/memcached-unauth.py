@@ -43,6 +43,6 @@ def poc(url):
             ans_str += ' | version:' + ''.join(re.findall(r'version\s(.*?)\s', recvdata))
             ans_str += ' | total_items:' + ''.join(re.findall(r'total_items\s(\d+)\s', recvdata))
             return ans_str
-    except Exception, e:
+    except Exception as e:
         pass
     return False

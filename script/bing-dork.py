@@ -5,7 +5,7 @@
 # @Last Modified time: 2018-12-15 23:26:50
 
 import pychrome
-import urlparse
+import urllib.parse
 
 
 # 环境配置:
@@ -51,7 +51,7 @@ def subdomin_finder_by_bing(target):
 
 		url="https://www.bing.com/search?q={}".format(target)
 		url=url+"&first={}".format(step)
-		print "step:",step
+		print("step:",step)
 
 		try:
 			# call method with timeout
@@ -78,7 +78,7 @@ def poc(target):
 	subdomins=subdomin_finder_by_bing(target)
 	tmp=[]
 	for sub in subdomins:
-		url=urlparse.urlparse(sub)
+		url=urllib.parse.urlparse(sub)
 		tmp.append(url.scheme+"://"+url.netloc)
 	subdomins=list(set(tmp))
 	if subdomins:

@@ -57,7 +57,7 @@ def testConnect(ip, port=22):
         s.connect(ip, port, username='root', pkey=private_key, timeout=10)
         s.close()
         return True
-    except Exception, e:
+    except Exception as e:
         if type(e) == SSHException:
             return True
         return False

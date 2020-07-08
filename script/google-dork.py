@@ -4,7 +4,7 @@
 # author = z3r0yu
 
 import pychrome
-import urlparse
+import urllib.parse
 
 # 环境配置:
 # 	本地配置chrome的headless，执行如下命令:
@@ -47,7 +47,7 @@ def subdomin_finder_by_google(target):
 
 		url="https://www.google.com/search?q={}".format(target)
 		url=url+"&start={}".format(step)
-		print "step:",step
+		print("step:",step)
 
 		# call method with timeout
 		tab.Page.navigate(url=url, _timeout=5)
@@ -76,7 +76,7 @@ def poc(target):
 	subdomins=subdomin_finder_by_google(target)
 	tmp=[]
 	for sub in subdomins:
-		url=urlparse.urlparse(sub)
+		url=urllib.parse.urlparse(sub)
 		if url.scheme+"://"+url.netloc != 'https://www.google.com':
 			tmp.append(url.scheme+"://"+url.netloc)
 	subdomins=list(set(tmp))

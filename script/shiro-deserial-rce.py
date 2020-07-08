@@ -41,7 +41,7 @@ def poc(url):
                 msg += ' - ' + each
             return msg
 
-    except Exception, e:
+    except Exception as e:
         pass
     return False
 

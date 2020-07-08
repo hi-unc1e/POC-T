@@ -35,6 +35,6 @@ def poc(url):
         c = requests.post(targeturl, data={'url': ssrf_dst}, headers=header, timeout=req_timeout).content
         if 'invalid_url' not in c:
             return True
-    except Exception, e:
+    except Exception as e:
         pass
     return False

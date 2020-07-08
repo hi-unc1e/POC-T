@@ -44,7 +44,7 @@ def poc(url):
         r.config_set('dbfilename', 'dump.rdb')  # 判断操作权限
         r.delete(key)
         r.save()  # 判断可导出
-    except Exception, e:
+    except Exception as e:
         return False
 
     # 枚举绝对路径

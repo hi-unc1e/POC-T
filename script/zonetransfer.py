@@ -32,11 +32,11 @@ import sys
 def poc(domain):
     try:
         if subprocess.mswindows:
-            print '[Error] This script only for linux/unix, please quit with [Ctrl-C]'
+            print('[Error] This script only for linux/unix, please quit with [Ctrl-C]')
             time.sleep(10000)
             return False
         if '-C' in sys.argv:
-            print '[Error] This script only for muti-threading mode, please quit with [Ctrl-C] and use [-eT] in your command.'
+            print('[Error] This script only for muti-threading mode, please quit with [Ctrl-C] and use [-eT] in your command.')
             time.sleep(10000)
             return False
         domain = domain.split('.')[-2].strip(' ') + '.' + domain.split('.')[-1].strip(' ')
@@ -49,5 +49,5 @@ def poc(domain):
                             cmd_res.find('XFR size') > 0:
                 return True
         return False
-    except Exception, e:
+    except Exception as e:
         return False

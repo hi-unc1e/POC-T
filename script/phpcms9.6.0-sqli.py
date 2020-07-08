@@ -17,7 +17,7 @@ Usage
 
 import requests
 import re
-from urllib import quote
+from urllib.parse import quote
 
 TIMEOUT = 3
 

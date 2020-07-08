@@ -29,16 +29,14 @@ from random import randint
 try:
     from urllib.parse import urlencode
 except ImportError:
-    from urllib import urlencode
+    from urllib.parse import urlencode
 
 try:
     from urllib3 import disable_warnings, PoolManager
     from urllib3.util.timeout import Timeout
 except ImportError:
     ver = version_info[0] if version_info[0] >= 3 else ""
-    raise ("\n * Package urllib3 not installed. Please install the package urllib3 before continue.\n"
-           + "   Example: \n"
-           + "   # apt-get install python%s-pip ; easy_install%s urllib3\n" % (ver, ver))
+    raise "\n * Package urllib3 not installed. Please install the package urllib3 before continue.\n"
 
 from urllib3 import disable_warnings, PoolManager
 from urllib3.util.timeout import Timeout
@@ -376,7 +374,7 @@ def poc(url):
              "JMXInvokerServlet": "/invoker/JMXInvokerServlet"}
     step1 = False
     exploit_type = ''
-    for i in paths.keys():
+    for i in list(paths.keys()):
         try:
             r = pool.request('HEAD', url + str(paths[i]), redirect=True, headers=headers)
             paths[i] = r.status
@@ -392,7 +390,7 @@ def poc(url):
         step2 = False
         try:
             step2 = auto_exploit(url, exploit_type)
-        except Exception, e:
+        except Exception as e:
             pass
         return step2
     else:

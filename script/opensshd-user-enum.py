@@ -29,7 +29,7 @@ def getResponseTime(user, host):
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         ssh.connect(host, port=port, username=user, password=pwd)
-    except Exception, e:
+    except Exception as e:
         pass
     finally:
         endtime = time.clock()

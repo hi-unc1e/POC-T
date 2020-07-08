@@ -18,7 +18,7 @@ import sys
 
 try:
     import MySQLdb
-except ImportError, e:
+except ImportError as e:
     sys.exit(e)
 
 
@@ -43,7 +43,7 @@ def poc(str):
                 'INSERT INTO bilibili_user_info VALUES (%s,%s,%s,%s)', [mid, mid, name, sign])
             return True
 
-        except MySQLdb.Error, e:
+        except MySQLdb.Error as e:
             pass
             # print "Mysql Error %d: %s" % (e.args[0], e.args[1])
     else:

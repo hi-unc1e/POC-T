@@ -21,7 +21,7 @@ def poc(url):
     headers = {'Authorization': 'Basic %s}' % key, 'User-Agent': 'Mozilla/5.0 Gecko/20100101 Firefox/45.0'}
     try:
         c = requests.get(url, headers=headers, timeout=10).content
-    except Exception, e:
+    except Exception as e:
         return False
     if 'Console' in c:
         return url

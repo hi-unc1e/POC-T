@@ -13,8 +13,8 @@ Usage:
 """
 import requests
 import re
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import base64
 from plugin.extracts import getTitle
 
@@ -41,14 +41,14 @@ def BingSearch(query):
     payload['$skip'] = skip
     payload['$format'] = 'json'
     payload['Query'] = "'" + query + "'"
-    url = 'https://api.datamarket.azure.com/Bing/Search/Web?' + urllib.urlencode(payload)
+    url = 'https://api.datamarket.azure.com/Bing/Search/Web?' + urllib.parse.urlencode(payload)
     sAuth = 'Basic ' + base64.b64encode(':' + accountKey)
 
     headers = {}
     headers['Authorization'] = sAuth
     try:
-        req = urllib2.Request(url, headers=headers)
-        response = urllib2.urlopen(req)
+        req = urllib.request.Request(url, headers=headers)
+        response = urllib.request.urlopen(req)
         the_page = response.read()
         data = json.loads(the_page)
         return data

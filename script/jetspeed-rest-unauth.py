@@ -47,7 +47,7 @@ def poc(url):
                 return True
         else:
             return False
-    except Exception, e:
+    except Exception as e:
         if not ENABLE_EXP:
             return False
 

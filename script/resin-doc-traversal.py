@@ -17,7 +17,7 @@ from plugin.urlparser import iterate_path
 
 def poc(url):
     url = url if '://' in url else 'http://' + url
-    print iterate_path(url)
+    print(iterate_path(url))
     for each in iterate_path(url):
         try:
             c = CloudEye()
