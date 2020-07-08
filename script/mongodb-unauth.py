@@ -7,7 +7,8 @@
 MongodDB未授权访问
 
 Usage:
-  python POC-T.py -s mongodb-unauth -aZ "port:27017 country:us"
+    python2 POC-T.py -s mongodb-unauth -aF "port=27017&&asn=4538"
+    python2 POC-T.py -s mongodb-unauth -aZ "port:27017 country:us"
 
 """
 

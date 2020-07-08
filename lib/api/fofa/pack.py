@@ -49,7 +49,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
 
     query = base64.b64encode(query)
 
-    request = "https://fofa.so/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}".format(email, key, query, limit)
+    request = "https://fofa.so/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
     #print(request)#
     result = []
     try:
@@ -63,7 +63,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
             if resp.get('size') < 100:
                 logger.info("{0} items found!".format(resp.get('size')))
             elif resp.get('size') >= 100:
-                logger.info("More than 100  items found! {0} returned....".format(resp.get('size')))
+                logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
     except Exception, e:
         sys.exit(logger.error(getSafeExString(e)))
     finally:
