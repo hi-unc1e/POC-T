@@ -4,6 +4,8 @@
 # author = bit4
 
 import sys
+
+import requests
 from lib.core.data import paths, logger
 from lib.utils.config import ConfigFileParser
 from lib.core.common import getSafeExString
@@ -17,8 +19,8 @@ def check(email, key):
     if email and key:
         auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
         try:
-            response = urllib.urlopen(auth_url)
-            if response.code == 200:
+            response = requests.get(auth_url)
+            if response.status_code == 200:
                 return True
         except Exception as e:
             logger.error(e)
