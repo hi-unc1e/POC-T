@@ -3,10 +3,10 @@
 # project = https://github.com/Xyntax/POC-T
 # author = i@cdxy.me
 
-# import shodan
+import shodan
 import sys
 from lib.core.data import paths, logger
-# from shodan.exception import APIError
+from shodan.exception import APIError
 from lib.utils.config import ConfigFileParser
 
 
