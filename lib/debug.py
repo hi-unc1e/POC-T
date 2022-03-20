@@ -108,7 +108,7 @@ def headerCheck(path):
                 if open(child).read().startswith(header):
                     pass
                 else:
-                    print 'Invalid header in %s' % child
+                    print ('Invalid header in %s' % child)
 
 
 def autoCheckResult(output, error, expect, unexpect):
@@ -142,7 +142,7 @@ def autoCheck():
         if autoCheckResult(o, e, r, u):
             pass
         else:
-            print command
+            print(command)
 
 
 def checkInvalidVersion():
@@ -153,7 +153,7 @@ def checkInvalidVersion():
     if autoCheckResult(o, e, ['[CRITICAL] incompatible Python version'], []):
         pass
     else:
-        print command
+        print(command)
 
 
 def checkOutput(base_path):
@@ -165,27 +165,27 @@ def checkOutput(base_path):
             os.remove(target1)
             os.remove(target3)
         else:
-            print '!!!failed!!!'
+            print ('!!!failed!!!')
     except IOError:
-        print '!!!failed!!!'
+        print ('!!!failed!!!')
 
 
 def debugMain():
     try:
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         os.chdir(root_dir)
-        print '>>> base-dir [%s]' % root_dir
+        print ('>>> base-dir [%s]' % root_dir)
 
-        print '>>> start header check'
+        print ('>>> start header check')
         headerCheck(root_dir)
 
-        print '>>> start invalid-version check'
+        print ('>>> start invalid-version check')
         checkInvalidVersion()
 
-        print '>>> start command check'
+        print ('>>> start command check')
         autoCheck()
 
-        print '>>> start output check'
+        print ('>>> start output check')
         checkOutput(root_dir)
 
     except KeyboardInterrupt:

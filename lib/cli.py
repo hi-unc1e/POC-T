@@ -51,11 +51,11 @@ def main():
 
         systemQuit(EXIT_STATUS.SYSETM_EXIT)
 
-    except ToolkitMissingPrivileges, e:
+    except ToolkitMissingPrivileges as e:
         logger.error(e)
         systemQuit(EXIT_STATUS.ERROR_EXIT)
 
-    except ToolkitSystemException, e:
+    except ToolkitSystemException as e:
         logger.error(e)
         systemQuit(EXIT_STATUS.ERROR_EXIT)
 
@@ -65,7 +65,7 @@ def main():
         systemQuit(EXIT_STATUS.USER_QUIT)
 
     except Exception:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         logger.warning('It seems like you reached a unhandled exception, please report it to author\'s mail:<i@cdxy.me> or raise a issue via:<https://github.com/Xyntax/POC-T/issues/new>.')
 
 if __name__ == "__main__":

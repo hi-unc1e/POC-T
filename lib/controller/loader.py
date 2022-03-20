@@ -27,7 +27,7 @@ def loadModule():
             if not hasattr(th.module_obj, each):
                 errorMsg = "Can't find essential method:'%s()' in current script，Please modify your script/PoC."
                 sys.exit(logger.error(errorMsg))
-    except ImportError, e:
+    except ImportError as e:
         errorMsg = "Your current scipt [%s.py] caused this exception\n%s\n%s" \
                    % (_name, '[Error Msg]: ' + str(e), 'Maybe you can download this module from pip or easy_install')
         sys.exit(logger.error(errorMsg))
@@ -70,7 +70,7 @@ def net_mode():
     ori_str = conf.NETWORK_STR
     try:
         _list = IPy.IP(ori_str)
-    except Exception, e:
+    except Exception as e:
         sys.exit(logger.error('Invalid IP/MASK,%s' % e))
     for each in _list:
         th.queue.put(str(each))
