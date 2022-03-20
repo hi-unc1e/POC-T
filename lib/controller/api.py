@@ -11,8 +11,8 @@ from lib.core.enums import API_MODE_NAME
 from lib.api.shodan.pack import ShodanSearch
 from lib.api.zoomeye.pack import ZoomEyeSearch
 from lib.api.google.pack import GoogleSearch
-from lib.api.fofa import FofaSearch
-from lib.api.quake import QuakeSearch
+from lib.api.fofa.pack import FofaSearch
+from lib.api.quake.pack import QuakeSearch
 
 
 def runApi():
