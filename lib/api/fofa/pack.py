@@ -15,7 +15,7 @@ import json
 
 def check(email, key):
     if email and key:
-        auth_url = "https://fofa.so/api/v1/info/my?email={0}&key={1}".format(email, key)
+        auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
         try:
             response = urllib.urlopen(auth_url)
             if response.code == 200:
@@ -49,7 +49,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
 
     query = base64.b64encode(query)
 
-    request = "https://fofa.so/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
+    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
     #print(request)#
     result = []
     try:
