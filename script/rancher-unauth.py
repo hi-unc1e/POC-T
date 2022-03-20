@@ -8,6 +8,8 @@ def poc(url):
     ''' 
     usage:
         python POC-T.py -s rancher-unauth -aF "header=rancher"
+    dork:
+        X-Api-Account-Kind: admin
 
         >>> type(r.content)
         <type 'str'>
