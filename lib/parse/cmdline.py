@@ -48,6 +48,8 @@ def cmdLineParser():
                      help='Google dork (e.g. "inurl:admin.php")')
     api.add_argument('-aF', '--fofa', metavar='DORK', dest="fofa_dork", type=str, default='',
                      help='FoFa dork (e.g. "banner=users && protocol=ftp")')
+    api.add_argument('-aQ', '--quake', metavar='DORK', dest="quake_dork", type=str, default='',
+                     help='Quake dork (e.g. port:8888 AND service: "http" ')
     api.add_argument('--limit', metavar='NUM', dest="api_limit", type=int, default=100,
                      help='Maximum searching results (default:10)')
     api.add_argument('--offset', metavar='OFFSET', dest="api_offset", type=int, default=0,
