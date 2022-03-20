@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # project = https://github.com/Xyntax/POC-T
-# author = bit4
+# author = unc1e
 
 import sys
 from lib.core.data import paths, logger
@@ -9,30 +9,36 @@ from lib.utils.config import ConfigFileParser
 from lib.core.common import getSafeExString
 import getpass
 import urllib
+import requests
 import base64
 import json
 
 
-def check(email, key):
-    if email and key:
-        auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
+def check(token):
+    if token:
+        # X-QuakeToken: d17140ae-xxxx-xxx-xxxx-c0818b2bbxxx
+        # https://quake.360.cn/api/v3/search/quake_service
+        auth_url = "hhttps://quake.360.cn/api/v3/search/quake_service"
+
+        header = {'X-QuakeToken': token}
+        postdata = {"query": "port: 443", "start": 0, "size": 1}
+
         try:
-            response = urllib.urlopen(auth_url)
+            response = requests.post(url=auth_url, header=header, json=postdata)
             if response.code == 200:
                 return True
-        except Exception, e:
-            # logger.error(e)
+        except Exception as e:
+            logger.error(e)
             return False
     return False
 
 
-def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
+def QuakeSearch(query, limit=10, offset=0):
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
-        email = ConfigFileParser().FofaEmail()
-        key = ConfigFileParser().FofaKey()
-        if check(email, key):
+        token = ConfigFileParser().QuakeKey()
+        if check(token):
             pass
         else:
             raise  # will go to except block
@@ -41,10 +47,9 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
         logger.warning(msg)
         msg = 'Please input your FoFa Email and API Key below.'
         logger.info(msg)
-        email = raw_input("Fofa Email: ").strip()
-        key = getpass.getpass(prompt='Fofa API Key: ').strip()
-        if not check(email, key):
-            msg = 'Fofa API authorization failed, Please re-run it and enter a valid key.'
+        token = raw_input("X-QuakeToken: ").strip()
+        if not check(token):
+            msg = 'X-QuakeToken API authorization failed, Please re-run it and enter a valid key.'
             sys.exit(logger.error(msg))
 
     query = base64.b64encode(query)
@@ -64,7 +69,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
                 logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
             else:# real < 100 or limit > real
                 logger.info("{0} items found!".format(resp.get('size')))
-    except Exception, e:
+    except Exception as e:
         sys.exit(logger.error(getSafeExString(e)))
     finally:
         return result

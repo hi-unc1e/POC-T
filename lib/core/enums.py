@@ -32,6 +32,7 @@ class API_MODE_NAME:
     SHODAN = 'Shodan'
     GOOGLE = 'Google'
     FOFA = 'Fofa'
+    QUAKE = 'Quake'
 
 
 class TARGET_MODE_STATUS:

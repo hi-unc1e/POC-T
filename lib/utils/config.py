@@ -52,3 +52,6 @@ class ConfigFileParser:
 
     def FofaKey(self):
         return self._get_option('fofa','api_key')
+
+    def QuakeKey(self):
+        return self._get_option('quake','X-QuakeToken')

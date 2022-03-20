@@ -11,7 +11,8 @@ from lib.core.enums import API_MODE_NAME
 from lib.api.shodan.pack import ShodanSearch
 from lib.api.zoomeye.pack import ZoomEyeSearch
 from lib.api.google.pack import GoogleSearch
-from lib.api.fofa.pack import FofaSearch
+from lib.api.fofa import FofaSearch
+from lib.api.quake import QuakeSearch
 
 
 def runApi():
@@ -27,6 +28,8 @@ def runApi():
         anslist = GoogleSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
     elif conf.API_MODE is API_MODE_NAME.FOFA:
         anslist = FofaSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
+    elif conf.API_MODE is API_MODE_NAME.QUAKE:
+        anslist = QuakeSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
     else:
         raise ToolkitValueException('Unknown API mode')
 
