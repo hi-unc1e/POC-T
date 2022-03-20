@@ -8,6 +8,6 @@
 *.xml
 .svn
 .tox
-.idea
+.idea*
 output
 data
