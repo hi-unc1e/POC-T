@@ -18,23 +18,14 @@ def poc(url):
     '''
     
     
-    url = "http://" + url if "//" not in url else url
+    url = "https://" + url if "//" not in url else url
+    # url = url.replace("http", "https") if ('443' in url) else url
     
     try:
-        r = requests.get(url=url,timeout=8,verify=False)
-        js = json.loads(r.content)
-
-        #not rancher
-        if "v" not in r.headers["X-Rancher-Version"].lower():
-            return False
-            
-        elif r.headers["X-Api-Account-Kind"] == 'admin':
+        r = requests.get(url=url, timeout=8, verify=False)
+        if r.headers["X-Api-Account-Kind"] == 'admin':
             return url
         else:
             return False
-    
-        
-        
-        
     except:
         return False

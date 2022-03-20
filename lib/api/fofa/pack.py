@@ -55,8 +55,8 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
     #print(request)#
     result = []
     try:
-        response = urllib.urlopen(request)
-        resp = response.readlines()[0]
+        response = requests.get(request)
+        resp = response.text
         resp = json.loads(resp)
         if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
             for item in resp.get('results'):

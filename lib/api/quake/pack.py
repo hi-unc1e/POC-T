@@ -18,14 +18,14 @@ def check(token):
     if token:
         # X-QuakeToken: d17140ae-xxxx-xxx-xxxx-c0818b2bbxxx
         # https://quake.360.cn/api/v3/search/quake_service
-        auth_url = "hhttps://quake.360.cn/api/v3/search/quake_service"
+        auth_url = "https://quake.360.cn/api/v3/search/quake_service"
 
         header = {'X-QuakeToken': token}
         postdata = {"query": "port: 443", "start": 0, "size": 1}
 
         try:
-            response = requests.post(url=auth_url, header=header, json=postdata)
-            if response.code == 200:
+            response = requests.post(url=auth_url, headers=header, json=postdata)
+            if response.status_code == 200:
                 return True
         except Exception as e:
             logger.error(e)
@@ -52,23 +52,28 @@ def QuakeSearch(query, limit=10, offset=0):
             msg = 'X-QuakeToken API authorization failed, Please re-run it and enter a valid key.'
             sys.exit(logger.error(msg))
 
-    query = base64.b64encode(query)
 
-    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
+    header = {'X-QuakeToken': token}
+    post_query = {"query": "port: 443", "start": offset, "size": limit}
+    url = "https://quake.360.cn/api/v3/search/quake_service"
     #print(request)#
     result = []
     try:
-        response = urllib.urlopen(request)
-        resp = response.readlines()[0]
+        response = requests.post(url, headers=header, json=post_query)
+        resp = response.content
         resp = json.loads(resp)
-        if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
-            for item in resp.get('results'):
-                #print(item)
-                result.append(item[0])
-            if resp.get('size') >= 100 and resp.get('size') > limit  : # real< limit
-                logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
-            else:# real < 100 or limit > real
-                logger.info("{0} items found!".format(resp.get('size')))
+        if resp["code"] == 0:
+            count = resp['meta']['pagination']['count']
+            total = resp['meta']['pagination']['total']
+            for item in resp.get('data'):
+                ip = item.get('ip')
+                port = item.get('port')
+                ret = "%s:%s" % (ip, port)
+                result.append(ret)
+            if count > limit:
+                logger.info("{0} items found! {1} returned....".format(total, limit))
+            else:
+                logger.info("{0} items found!".format(count))
     except Exception as e:
         sys.exit(logger.error(getSafeExString(e)))
     finally:
