@@ -28,7 +28,7 @@ TABLE = ''  # Custom table name for exploit
 
 
 def poc(url):
-    url_to_pma = url
+    url_to_pma = url if "//" in url else "http://" + url
     uname = USER
     upass = PASS
 

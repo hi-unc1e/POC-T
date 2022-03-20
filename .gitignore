@@ -6,7 +6,6 @@
 *.swp
 *.conf
 *.xml
-*.txt
 .svn
 .tox
 .idea

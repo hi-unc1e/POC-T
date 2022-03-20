@@ -12,7 +12,6 @@ def poc(url):
       python2 POC-T.py -s proxy_squid_get -aF "app=Tinyproxy"
 
     '''
-    
     # parsing
     ip = url.split(":")[0]
     try:
@@ -26,15 +25,15 @@ def poc(url):
     #print(proxies)
     # target conf
     url_CN = "http://www.baidu.com"
-    #url_US = "http://www.google.com"
+    url_US = "https://blog.unc1e.com/"
     timeout = 3
     
     try:
-        r1 = requests.get(url=url_CN, proxies=proxies, timeout=timeout, verify=False)
+        r1 = requests.get(url=url_US, proxies=proxies, timeout=timeout, verify=True)
         #r2 = requests.get(url=url_US, proxies=proxies, timeout=timeout, verify=False)
    
         #if "baidu" in r1.text and "google" in r2.text:
-        if "baidu" in r1.content and "ERROR" not in r1.content:
+        if "MKCMS" in r1.text:
             return url
         else:
             return False

@@ -7,7 +7,8 @@
 Open SSHD User Enumeration (CVE-2016-6210)
 
 Usage:
-  python POC-T -s opensshd-user-enum -aZ "port:22 country:cn"
+  python POC-T.py -s opensshd-user-enum -aZ "port:22 country:cn" 
+
 
 """
 

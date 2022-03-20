@@ -36,8 +36,8 @@ def getpName(xurl):
     
 # 主函数
 ## 配置    
-IP = '45.32.183.248'
-PORT = 9999
+IP = '121.36.134.150'
+PORT = 443
 
 
 headers = {"Content-Type": "application/x-www-form-urlencoded"}

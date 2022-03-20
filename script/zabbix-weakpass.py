@@ -11,7 +11,7 @@ Exploit:
 
 Usage:
   python POC-T.py -s zabbix-weakpass -aG "Set-Cookie: zbx_sessionid country:cn"
-
+    python POC-T.py -s zabbix-weakpass -aF "app=zabbix"
 """
 
 import requests
