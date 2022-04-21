@@ -66,6 +66,6 @@ def poc(url):
     except KeyboardInterrupt:
         return False
           #sys.exit("\nClosing shell...")
-    except Exception, e:
+    except Exception as e:
         return False
         #sys.exit(str(e))

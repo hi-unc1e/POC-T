@@ -35,6 +35,6 @@ def poc(url):
             r = requests.get(target_url, timeout=10)
             if cipher in r.content:
                 return each
-        except Exception, e:
+        except Exception as e:
             pass
     return False

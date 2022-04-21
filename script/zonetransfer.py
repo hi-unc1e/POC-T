@@ -49,5 +49,5 @@ def poc(domain):
                             cmd_res.find('XFR size') > 0:
                 return True
         return False
-    except Exception, e:
+    except Exception as e:
         return False

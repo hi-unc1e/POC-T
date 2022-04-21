@@ -88,7 +88,7 @@ class BrustThread(threading.Thread):
             #push to task queue
             cnt = count + 1
             BRUST_USER_QUEUE.put_nowait({"user":user,"password":pwd, "count":cnt})
-        except Exception,e:
+        except Exception ase:
             pass
             #color_output(u'[-]....尝试登陆组合 %s:%s, 返回码:%s' % (user, pwd, str(e)), False)
 
@@ -151,7 +151,7 @@ class Jenkins(object):
         except urllib2.URLError,e:
             #color_output("[-]....can't get jenkins version!")
             self.b_done = False
-        except Exception,e:
+        except Exception ase:
             #color_output("[-]....get version error:%s" % str(e))
             self.b_done = False
 
@@ -245,7 +245,7 @@ class Jenkins(object):
 
                         #time.sleep(0.5)
 
-                    except Exception,e:
+                    except Exception ase:
                         #print str(e)
                         self.b_done = False
                 else:

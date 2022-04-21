@@ -32,6 +32,6 @@ def poc(url):
         c = requests.get(target, headers={'User-Agent': firefox()}, timeout=5).content
         if key in c and 'xwork2.dispatcher' not in c:
             return url
-    except Exception, e:
+    except Exception as e:
         return False
     return False

@@ -73,6 +73,6 @@ def GoogleSearch(query, limit, offset=0):
         return ans
     except SocketError:
         sys.exit(logger.error('Unable to connect Google, maybe agent/proxy error.'))
-    except ServerHttpDenied, e:
+    except ServerHttpDenied as e:
         logger.warning('It seems like Google-Server denied this request.')
         sys.exit(logger.error(getSafeExString(e)))

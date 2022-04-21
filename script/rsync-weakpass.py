@@ -63,7 +63,7 @@ def initialisation(host, port):
         if len(reply) == 3:
             flag = True
             rsynclist = ClientQuery(s)  # 查询模块名
-    except Exception, e:
+    except Exception as e:
         #print("[error](%s)" % str(e))
         pass
     finally:
@@ -93,7 +93,7 @@ def ClientQuery(socket_pre):
                     modulelist.append(realname[0])
             if modulename[-2] == "@RSYNCD:EXIT":
                 break
-    except Exception, e:
+    except Exception as e:
         #print("[error](%s)" % str(e))
         pass
     return modulelist
@@ -139,7 +139,7 @@ def ClientCommand(host, port, cmd):
                     return "Module:'%s' User/Password:%s/<empty>" % (cmd, user)
                 else:
                     return "Module:'%s' User/Password:%s/%s" % (cmd, user, password)
-        except Exception, e:
+        except Exception as e:
             #print("[-]error(%s)" % str(e))
             break
     return 'brute failed'

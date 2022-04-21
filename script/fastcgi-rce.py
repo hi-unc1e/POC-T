@@ -31,7 +31,7 @@ def poc(ip):
 
         if ret.find(FLAG):
             return ip + ' -> ' +ret.split(FLAG)[1] if EXPLOIT else True
-    except Exception, e:
+    except Exception as e:
         sock.close()
 
     return False

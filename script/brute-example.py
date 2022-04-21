@@ -67,5 +67,5 @@ def poc(i):
             if not len(r.content) == 1809:
                 return True
         return False
-    except Exception, e:
+    except Exception as e:
         return False

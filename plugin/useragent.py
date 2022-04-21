@@ -44,7 +44,7 @@ def get_random_agent(path=paths.UA_LIST_PATH):
         _init_UAlist(path)
     try:
         return random.sample(th.UA_LIST, 1)[0]
-    except IOError, e:
+    except IOError as e:
         warnMsg = "unable to read HTTP User-Agent header "
         warnMsg += "file '%s'" % path
         logger.warning(warnMsg)

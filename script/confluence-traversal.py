@@ -30,5 +30,5 @@ def poc(_inp):
                 if '.properties' in requests.get(url=inp + each).content:
                     return True
         return False
-    except Exception, e:
+    except Exception as e:
         return False

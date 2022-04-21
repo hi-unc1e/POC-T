@@ -45,6 +45,6 @@ def poc(url):
         requests.post(targeturl, data=payload, headers=header, timeout=req_timeout)
         if c.verifyDNS(delay=3):
             return True
-    except Exception, e:
+    except Exception as e:
         pass
     return False

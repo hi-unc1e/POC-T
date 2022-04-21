@@ -34,6 +34,6 @@ def poc(url):
                 return '[mysql]'+ each
             if 'Error in query [' in r.content or 'SQL error [' in r.content:
                 return each
-        except Exception, e:
+        except Exception as e:
             pass
     return False

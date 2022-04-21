@@ -392,7 +392,7 @@ def poc(url):
         step2 = False
         try:
             step2 = auto_exploit(url, exploit_type)
-        except Exception, e:
+        except Exception as e:
             pass
         return step2
     else:

