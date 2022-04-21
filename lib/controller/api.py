@@ -13,6 +13,7 @@ from lib.api.zoomeye.pack import ZoomEyeSearch
 from lib.api.google.pack import GoogleSearch
 from lib.api.fofa.pack import FofaSearch
 from lib.api.quake.pack import QuakeSearch
+from lib.api.hunter.pack import HunterSearch
 
 
 def runApi():
@@ -30,6 +31,8 @@ def runApi():
         anslist = FofaSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
     elif conf.API_MODE is API_MODE_NAME.QUAKE:
         anslist = QuakeSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
+    elif conf.API_MODE is API_MODE_NAME.HUNTER:
+        anslist = HunterSearch(query=dork, limit=limit, offset=conf.API_OFFSET)
     else:
         raise ToolkitValueException('Unknown API mode')
 

@@ -10,20 +10,21 @@ from lib.core.common import getSafeExString
 import requests
 import base64
 import json
+import base64
+
 
 
 def check(token):
     if token:
         # https://hunter.qianxin.com/home/helpCenter?r=5-2
         # curl -X GET -k "https://hunter.qianxin.com/openApi/search?username={username}&api-key={api-key}&search={search}&page=1&page_size=10&is_web=1&start_time="2021-01-01 00:00:00"&end_time="2021-03-01 00:00:00""
-
-        auth_url = "https://hunter.qianxin.com/openApi/search"
-        api_key = token
-        postdata = {"query": "port: 443", "start": 0, "size": 1}
+        search = 'ip.port=80'
+        search = base64.urlsafe_b64encode(search.encode("utf-8"))
+        auth_url = "https://hunter.qianxin.com/openApi/search?api-key=%s&search=%s&page=1&page_size=1" % (token, search)
 
         try:
-            response = requests.get(url=auth_url, headers, json=postdata)
-            if response.status_code == 200:
+            response = requests.get(url=auth_url)
+            if (response.status_code == 200) and ("success" in response.text):
                 return True
         except Exception as e:
             logger.error(e)
@@ -31,11 +32,11 @@ def check(token):
     return False
 
 
-def QuakeSearch(query, limit=10, offset=0):
+def HunterSearch(query, limit=10, offset=0):
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
-        token = ConfigFileParser().QuakeKey()
+        token = ConfigFileParser().HunterKey()
         if check(token):
             pass
         else:
@@ -43,32 +44,38 @@ def QuakeSearch(query, limit=10, offset=0):
     except:
         msg = 'Automatic authorization failed.'
         logger.warning(msg)
-        msg = 'Please input your FoFa Email and API Key below.'
+        msg = 'Please input your hunter.qianxin.com API Key below.'
         logger.info(msg)
-        token = raw_input("X-QuakeToken: ").strip()
+        token = raw_input("Hunter api-key: ").strip()
         if not check(token):
-            msg = 'X-QuakeToken API authorization failed, Please re-run it and enter a valid key.'
+            msg = 'Hunter.qianxin.com API authorization failed, Please re-run it and enter a valid key.'
             sys.exit(logger.error(msg))
 
 
-    header = {'X-QuakeToken': token}
-    post_query = {"query": "port: 443", "start": offset, "size": limit}
-    url = "https://quake.360.cn/api/v3/search/quake_service"
+    url = "https://hunter.qianxin.com/openApi/search?api-key={token}&search={q}&page={page}&page_size={limit}"
+    url = url.format(token=token,
+                     q=base64.urlsafe_b64encode(query),
+                     page=offset,
+                     limit=limit
+                     )
+
     #print(request)#
     result = []
     try:
-        response = requests.post(url, headers=header, json=post_query)
+        # https://hunter.qianxin.com/home/helpCenter?r=5-2
+        response = requests.get(url)
         resp = response.content
         resp = json.loads(resp)
-        if resp["code"] == 0:
-            count = resp['meta']['pagination']['count']
-            total = resp['meta']['pagination']['total']
-            for item in resp.get('data'):
+        if resp["msg"] == "success":
+            total = resp['data']['total']
+            for item in resp.get('data').get('arr'):
                 ip = item.get('ip')
                 port = item.get('port')
+                # url
+                url = item.get('url') #
                 ret = "%s:%s" % (ip, port)
                 result.append(ret)
-            if count > limit:
+            if total > limit:
                 logger.info("{0} items found! {1} returned....".format(total, limit))
             else:
                 logger.info("{0} items found!".format(count))

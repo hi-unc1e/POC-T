@@ -48,10 +48,13 @@ class ConfigFileParser:
         return self._get_option('google', 'search_engine')
 
     def FofaEmail(self):
-        return self._get_option('fofa','email')
+        return self._get_option('fofa', 'email')
 
     def FofaKey(self):
-        return self._get_option('fofa','api_key')
+        return self._get_option('fofa', 'api_key')
 
     def QuakeKey(self):
-        return self._get_option('quake','X-QuakeToken')
+        return self._get_option('quake', 'X-QuakeToken')
+
+    def HunterKey(self):# todo:
+        return self._get_option('hunter', 'api-key')

@@ -50,6 +50,8 @@ def cmdLineParser():
                      help='FoFa dork (e.g. "banner=users && protocol=ftp")')
     api.add_argument('-aQ', '--quake', metavar='DORK', dest="quake_dork", type=str, default='',
                      help='Quake dork (e.g. port:8888 AND service: "http" ')
+    api.add_argument('-aH', '--hunter', metavar='DORK', dest="hunter_dork", type=str, default='',
+                     help='Hunter dork (e.g. header.content_length="32"&&ip.port="9997"')
     api.add_argument('--limit', metavar='NUM', dest="api_limit", type=int, default=100,
                      help='Maximum searching results (default:10)')
     api.add_argument('--offset', metavar='OFFSET', dest="api_offset", type=int, default=0,

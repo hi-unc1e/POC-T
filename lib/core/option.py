@@ -116,6 +116,7 @@ def TargetRegister(args):
     api_google = args.google_dork
     api_fofa = args.fofa_dork
     api_quake = args.quake_dork
+    api_hunter = args.hunter_dork
 
     def __file():
         if not os.path.isfile(input_file):
@@ -183,7 +184,12 @@ def TargetRegister(args):
         conf.API_MODE = API_MODE_NAME.QUAKE
         conf.API_DORK = api_quake
 
-    msg = 'Please load targets with [-iS|-iA|-iF|-iN] or use API with [-aZ|-aS|-aG|-aF]'
+    def __hunter():
+        conf.TARGET_MODE = TARGET_MODE_STATUS.API
+        conf.API_MODE = API_MODE_NAME.HUNTER
+        conf.API_DORK = api_hunter
+
+    msg = 'Please load targets with [-iS|-iA|-iF|-iN] or use API with [-aZ|-aS|-aG|-aF|-aH]'
     r = Register(mutex=True, mutex_errmsg=msg)
     r.add(__file, input_file)
     r.add(__network, input_network)
@@ -194,6 +200,7 @@ def TargetRegister(args):
     r.add(__google, api_google)
     r.add(__fofa, api_fofa)
     r.add(__quake, api_quake)
+    r.add(__hunter, api_hunter)
     r.run()
 
 

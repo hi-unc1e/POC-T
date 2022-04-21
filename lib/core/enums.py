@@ -33,6 +33,7 @@ class API_MODE_NAME:
     GOOGLE = 'Google'
     FOFA = 'Fofa'
     QUAKE = 'Quake'
+    HUNTER = 'Hunter'
 
 
 class TARGET_MODE_STATUS:
