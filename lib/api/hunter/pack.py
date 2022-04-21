@@ -32,8 +32,9 @@ def check(token):
     return False
 
 
-def HunterSearch(query, limit=10, offset=0):
+def HunterSearch(query, limit=10, offset=1):
     try:
+        offset = 1 if offset == 0 else offset
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
         token = ConfigFileParser().HunterKey()
@@ -63,22 +64,26 @@ def HunterSearch(query, limit=10, offset=0):
     result = []
     try:
         # https://hunter.qianxin.com/home/helpCenter?r=5-2
-        response = requests.get(url)
-        resp = response.content
+        response = requests.get(url, verify=False)
+        resp = response.text
         resp = json.loads(resp)
-        if resp["msg"] == "success":
+        if resp["code"] == 200:
             total = resp['data']['total']
             for item in resp.get('data').get('arr'):
                 ip = item.get('ip')
                 port = item.get('port')
                 # url
-                url = item.get('url') #
+                # url = item.get('url') #
                 ret = "%s:%s" % (ip, port)
                 result.append(ret)
             if total > limit:
                 logger.info("{0} items found! {1} returned....".format(total, limit))
             else:
                 logger.info("{0} items found!".format(count))
+        elif 400 == resp["code"]:
+                logger.warning("Too many reqs, slow down plz!")
+        else:
+                logger.info("error: "+str(resp))
     except Exception as e:
         sys.exit(logger.error(getSafeExString(e)))
     finally:

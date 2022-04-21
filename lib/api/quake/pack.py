@@ -60,7 +60,7 @@ def QuakeSearch(query, limit=10, offset=0):
     result = []
     try:
         response = requests.post(url, headers=header, json=post_query)
-        resp = response.content
+        resp = response.text
         resp = json.loads(resp)
         if resp["code"] == 0:
             count = resp['meta']['pagination']['count']
