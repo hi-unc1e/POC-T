@@ -66,9 +66,13 @@ def QuakeSearch(query, limit=10, offset=0):
             count = resp['meta']['pagination']['count']
             total = resp['meta']['pagination']['total']
             for item in resp.get('data'):
-                ip = item.get('ip')
-                port = item.get('port')
-                ret = "%s:%s" % (ip, port)
+                url = item.get('url', '')
+                if url == '':
+                    ip = item.get('ip')
+                    port = item.get('port')
+                    ret = "%s:%s" % (ip, port)
+                else:
+                    ret = url
                 result.append(ret)
             if count > limit:
                 logger.info("{0} items found! {1} returned....".format(total, limit))
