@@ -53,7 +53,7 @@ def parse_arr(resp):
         ret = "%s:%s" % (ip, port) if url == '' else url
         if ret != '':
             res.append(ret)
-        return res
+    return res
 
 def HunterSearch(query, limit=10, offset=1):
     page = offset

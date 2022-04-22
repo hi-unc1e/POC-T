@@ -54,7 +54,7 @@ def QuakeSearch(query, limit=10, offset=0):
 
 
     header = {'X-QuakeToken': token}
-    post_query = {"query": "port: 443", "start": offset, "size": limit}
+    post_query = {"query": query, "start": offset, "size": limit}
     url = "https://quake.360.cn/api/v3/search/quake_service"
     #print(request)#
     result = []
@@ -68,13 +68,10 @@ def QuakeSearch(query, limit=10, offset=0):
             count = resp['meta']['pagination']['count']
             total = resp['meta']['pagination']['total']
             for item in resp.get('data'):
-                url = item.get('url', '')
-                if url == '':
-                    ip = item.get('ip')
-                    port = item.get('port')
-                    ret = "%s:%s" % (ip, port)
-                else:
-                    ret = url
+                ip = item.get('ip')
+                port = item.get('port')
+                ret = "%s:%s" % (ip, port)
+
                 result.append(ret)
             if count > limit:
                 logger.info("{0} items found! {1} returned....".format(total, limit))
