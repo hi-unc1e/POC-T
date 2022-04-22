@@ -58,7 +58,9 @@ def QuakeSearch(query, limit=10, offset=0):
     url = "https://quake.360.cn/api/v3/search/quake_service"
     #print(request)#
     result = []
+
     try:
+    # ""u'{"code":"q2001","message":"\网\页\查\询\最\大\允\许\查\询500\条\数\据\。","data":{},"meta":{}}
         response = requests.post(url, headers=header, json=post_query)
         resp = response.text
         resp = json.loads(resp)
