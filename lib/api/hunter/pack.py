@@ -4,6 +4,8 @@
 # author = unc1e
 
 import sys
+import traceback
+
 from lib.core.data import paths, logger
 from lib.utils.config import ConfigFileParser
 from lib.core.common import getSafeExString
@@ -33,51 +35,52 @@ def check(token):
     return False
 
 def req(url):
-    global total
     try:
         response = requests.get(url, verify=False)
-        resp = response.text
-        resp = json.loads(resp)
-        if resp["code"] == 200:
-            count = len(resp['data']['arr'])
-            total = len(resp['data']['total'])
-            logger.info("{0} items found!".format(count))
+        return response
 
-            for item in resp.get('data').get('arr'):
-                ip = item.get('ip')
-                port = item.get('port')
-                # url
-                # url = item.get('url') #
-                ret = "%s:%s" % (ip, port)
-                return resp["code"],ret
-        else:
-            return resp["code"],None
     except Exception as e:
         logger.warning(e)
-        return False, None
+        return None
 
+def parse_arr(resp):
+    res = []
+    for item in resp.get('data').get('arr'):
+        ip = item.get('ip')
+        port = item.get('port')
+        # url
+        url = item.get('url') #
+        ret = "%s:%s" % (ip, port) if url == '' else url
+        if ret != '':
+            res.append(ret)
+        return res
 
 def HunterSearch(query, limit=10, offset=1):
-    global total
-    total = limit
-    offset = 1 if offset == 0 else offset
-    try:
-        MAX_LENGTH_PER_PAGE = 100
-        MAX_RETRY_TIMES = 2
-        # 201
-        loop_time = (limit//MAX_LENGTH_PER_PAGE)  # 2
-        loop_dict = {}
-        for i in range(loop_time): # 0, 1
-            page = i+1
+    page = offset
+    page_size = limit
+    MAX_LENGTH_PER_PAGE = 100
+    loop_dict = {}
+
+    if page_size <= MAX_LENGTH_PER_PAGE:
+        # < 100
+        page = 1
+        loop_dict[page] = page_size
+        pass
+    else:
+        # > 100
+
+        # eg: page_size->201
+        loop_time = (page_size//MAX_LENGTH_PER_PAGE)+1  # 2
+        for i in range(1, loop_time): # 0, 1
+            page = i
             # 1: 100
             # 2: 100
-            loop_dict[offset+page+1] = MAX_LENGTH_PER_PAGE
+            loop_dict[i] = MAX_LENGTH_PER_PAGE
 
         # 3: 011
-        loop_dict[loop_time+1] = int(limit-MAX_LENGTH_PER_PAGE*loop_time)
+        loop_dict[loop_time] = int(page_size-(MAX_LENGTH_PER_PAGE*(loop_time-1)))
 
-        # offset>0
-
+    try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
         token = ConfigFileParser().HunterKey()
@@ -97,36 +100,59 @@ def HunterSearch(query, limit=10, offset=1):
 
     result = []
     try:
+        MAX_RETRY_TIMES = 2
         for page,size in loop_dict.items():
-            url = "https://hunter.qianxin.com/openApi/search?api-key={token}&search={q}&page={page}&page_size={limit}"
+            url = "https://hunter.qianxin.com/openApi/search?api-key={token}&search={q}&page={page}&page_size={size}&is_web=1"
             url = url.format(token=token,
                              q=base64.urlsafe_b64encode(query),
                              page=page,
-                             limit=size
+                             size=size
                              )
 
             # https://hunter.qianxin.com/home/helpCenter?r=5-2
-            code,ret = req(url)
-            if ret != None:
-                result.append(ret)
-            if total > limit and code == 200:
-                logger.info("{0} items found! {1} returned....".format(total, limit))
+            r = req(url)
+            if r == None:
+                exit("request error:(%s)" % url)
+            resp = r.text
+            resp = json.loads(resp)
+            code = resp["code"]
+            if code == 200:
+                count = len(resp['data']['arr'])
+                total = resp['data']['total']
+                logger.info("{0} items found!".format(count))
+
+                if total > limit and code == 200 and page == 1:
+                    logger.info("{0} items found! {1} returned....".format(total, limit))
+
+                ret = parse_arr(resp)
+                result.extend(ret)
+                continue
+            #
             elif 429 == code:
                 while (MAX_RETRY_TIMES > 0):
-                    logger.warning("[%s]Too many reqs, slow down plz!" % MAX_RETRY_TIMES)
-                    time.sleep(10)
+                    logger.warning("[%s]Too many reqs, slow down plz!(%s)" % (MAX_RETRY_TIMES, r.text))
+                    time.sleep(8)
                     MAX_RETRY_TIMES -= 1
-                    code,ret = req(url)
-                    if ret != None and code == 200:
-                        result.append(ret)
+                    r = req(url)
+                    resp = r.text
+                    resp = json.loads(resp)
+                    code = resp["code"]
+                    if code == 200:
+                        count = len(resp['data']['arr'])
+                        logger.info("{0} items found!".format(count))
+                        ret = parse_arr(resp)
+                        result.extend(ret)
                         # ok
                         break
                     else:
                         # or
                         continue
             else:
-                logger.info("error: "+str(code))
+                logger.info("error: "+str(resp))
+            time.sleep(5)
+            continue
     except Exception as e:
+        traceback.print_exc(e)
         sys.exit(logger.error(getSafeExString(e)))
     finally:
         return result
