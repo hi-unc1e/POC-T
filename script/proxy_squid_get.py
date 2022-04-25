@@ -25,7 +25,7 @@ def poc(url):
     #print(proxies)
     # target conf
     url_CN = "http://www.baidu.com"
-    url_US = "https://blog.unc1e.com/"
+    url_US = "https://www.nsfc.gov.cn/publish/portal0/jgsz/08/default.htm#01"
     timeout = 3
     
     try:
@@ -33,7 +33,7 @@ def poc(url):
         #r2 = requests.get(url=url_US, proxies=proxies, timeout=timeout, verify=False)
    
         #if "baidu" in r1.text and "google" in r2.text:
-        if "MKCMS" in r1.text:
+        if "青年科学基金项" in r1.text:
             return url
         else:
             return False

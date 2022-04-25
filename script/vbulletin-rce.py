@@ -10,7 +10,7 @@
 # - "Powered by vBulletin Version 5.5.4"
 
 
- # USAGE: python POC-T.py -s vbulletin_RCE -aF "app=vBulletin&&country=DE"
+ # USAGE: python POC-T.py -s vbulletin-rce -aF "app=vBulletin&&country=DE"
 
                                              # __/
     # ____     ____     _____           ______/ __/

@@ -7,7 +7,7 @@
 rsync 弱口令扫描 (需要版本高于30.0)
 
 Usage
- python POC-T.py -s rsync-weakpass -aS "port:873"
+ python POC-T.py -s rsync-weakpass -aF "protocol=rsync"
 
 Result
  127.0.0.1 version:31.0 Module:'share' User/Password:root/toor
@@ -19,8 +19,8 @@ import struct
 import hashlib
 import base64
 
-USER_LIST = ['root', 'Administrator', 'rsync', 'user', 'test']
-PASS_LIST = ['', 'password', '123456', '12345678', 'qwerty', 'admin123']
+USER_LIST = ['root', 'Administrator', 'rsync', 'admin', 'test']
+PASS_LIST = ['', 'password', '123456', '12345', '12345678', 'qwerty', 'admin123', 'admin']
 
 
 def poc(url):
@@ -96,6 +96,7 @@ def ClientQuery(socket_pre):
     except Exception as e:
         #print("[error](%s)" % str(e))
         pass
+
     return modulelist
 
 
@@ -142,4 +143,6 @@ def ClientCommand(host, port, cmd):
         except Exception as e:
             #print("[-]error(%s)" % str(e))
             break
+        finally:
+            s.close()
     return 'brute failed'
