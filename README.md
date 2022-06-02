@@ -27,6 +27,11 @@ ToDO:
 ---
 * Python 2.7
 * pip
+```markdown
+python2 ./shodan-python-1.27.0/setup.py install
+
+sudo yum -y install python-devel
+```
 
 用户手册
 ----
