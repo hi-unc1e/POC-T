@@ -19,7 +19,7 @@ def check(email, key):
     if email and key:
         auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
         try:
-            response = requests.get(auth_url)
+            response = requests.get(auth_url, verify=False)
             if response.status_code == 200:
                 return True
         except Exception as e:
@@ -28,7 +28,7 @@ def check(email, key):
     return False
 
 
-def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
+def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能实现
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
@@ -55,7 +55,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
     #print(request)#
     result = []
     try:
-        response = requests.get(request)
+        response = requests.get(request, verify=False)
         resp = response.text
         resp = json.loads(resp)
         if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
