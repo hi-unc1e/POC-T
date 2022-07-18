@@ -11,7 +11,8 @@
 .idea/*
 output
 *.xml
-/data/Fofa/20220320180225.txt
+.idea/workspace.xml
+/data/Fofa/*.txt
 /data/Fofa/20220320180227.txt
 /data/Fofa/20220320180238.txt
 /data/Fofa/20220320180259.txt
