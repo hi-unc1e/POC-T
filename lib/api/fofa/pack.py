@@ -28,7 +28,7 @@ def check(email, key):
     return False
 
 
-def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能实现
+def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
@@ -50,21 +50,24 @@ def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能�
             sys.exit(logger.error(msg))
 
     query = base64.b64encode(query)
-
-    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
-    #print(request)#
+    page = offset + 1
+    url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,
+                                                                                                       query, limit,
+                                                                                                       page)
+    # print(request)#
     result = []
     try:
-        response = requests.get(request, verify=False)
-        resp = response.text
-        resp = json.loads(resp)
-        if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
+        response = requests.get(url, verify=False)
+        tex = response.text
+        resp = json.loads(tex)
+        logger.info("error:" + str(resp.get("error")))
+        if resp["error"] is False:  # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
             for item in resp.get('results'):
-                #print(item)
+                # print(item)
                 result.append(item[0])
-            if resp.get('size') >= 100 and resp.get('size') > limit  : # real< limit
+            if resp.get('size') >= 100 and resp.get('size') > limit:  # real< limit
                 logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
-            else:# real < 100 or limit > real
+            else:  # real < 100 or limit > real
                 logger.info("{0} items found!".format(resp.get('size')))
     except Exception as e:
         sys.exit(logger.error(getSafeExString(e)))
