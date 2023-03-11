@@ -8,7 +8,7 @@
       <change beforePath="$PROJECT_DIR$/script/BlackDuck_default-pwd.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/BlackDuck_default-pwd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/toolkit.conf" beforeDir="false" afterPath="$PROJECT_DIR$/toolkit.conf" afterDir="false" />
     </list>
->>>>>>> 232d6a64388ef7aa2676599862b80bab9fd97717
+    &gt;&gt;&gt;&gt;&gt;&gt;&gt; 232d6a64388ef7aa2676599862b80bab9fd97717
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -124,6 +124,7 @@
     <list>
       <item itemvalue="Python.hunter" />
       <item itemvalue="Python.quake" />
+      <item itemvalue="Python.fofa" />
     </list>
     <recent_temporary>
       <list>
