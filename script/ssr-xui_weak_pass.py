@@ -47,14 +47,12 @@ def poc(url):
     url = get_schemed_url(url)
     login_url = urljoin_ex(url, "/login")
 
-    with open(paths.WEAK_PASS_10, "r") as f:
-        pwd_list = f.readlines()
-    for pwd in pwd_list:
-        valid = login_by_url_and_pwd(login_url, pwd)
-        if valid:
-            return True
-        else:
-            continue
-
+    # with open(paths.WEAK_PASS_10, "r") as f:
+    #     pwd_list = f.readlines()
+    # for pwd in pwd_list:
+    valid = login_by_url_and_pwd(login_url, "admin")
+    if valid:
+        return True
+    else:
     # fail when finished
-    return False
+       return False
