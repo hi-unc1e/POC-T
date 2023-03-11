@@ -5,10 +5,11 @@ import json
 import traceback
 
 import requests
-from lib.core.data import th, conf, logger, paths
+from lib.core.data import logger
+from lib.core.datatype import AttribDict
 
 
-def request(method, url, **kwargs) -> requests.Response or None:
+def request(method, url, **kwargs):
     resp = None
     try:
         resp = requests.request(method, url, **kwargs)
@@ -26,11 +27,7 @@ def _is_valid_json_resp(resp):
         _text = resp.text
         _json = json.loads(_text)
         ret = True
-    # except TypeError:
-    #     ret = False
-    #
-    # except AttributeError:
-    #     ret = False
+    # except TypeError or AttributeError:
     except:
         logger.warning(traceback.format_exc())
 
@@ -38,11 +35,20 @@ def _is_valid_json_resp(resp):
         return ret
 
 
-def json_load_ex(method, url, **kwargs) -> dict:
+def request_and_parse_json(method, url, **kwargs):
     resp = request(method, url, **kwargs)
     if _is_valid_json_resp(resp):
-        return json.loads(resp.text)
+        _dict = json.loads(resp.text)
+        return AttribDict(_dict)
     else:
         return None
 
+
+def GET_and_parse_json(url, **kwargs):
+    resp = request("GET", url, **kwargs)
+    if _is_valid_json_resp(resp):
+        _dict = json.loads(resp.text)
+        return AttribDict(_dict)
+    else:
+        return None
 

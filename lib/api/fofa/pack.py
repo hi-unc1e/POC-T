@@ -8,6 +8,7 @@ import sys
 import requests
 from lib.core.data import paths, logger
 from lib.utils.config import ConfigFileParser
+from lib.utils.http import GET_and_parse_json
 from lib.core.common import getSafeExString
 import getpass
 import urllib
@@ -15,12 +16,16 @@ import base64
 import json
 
 
+
+
 def check(email, key):
     if email and key:
         auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
         try:
-            response = requests.get(auth_url, verify=False)
-            if '"error":true' in response.text:
+            r_dict = GET_and_parse_json(auth_url, verify=False)
+            if r_dict.error:
+                return False
+            else:
                 return True
         except Exception as e:
             logger.error(e)
@@ -52,16 +57,15 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
 
     query = base64.b64encode(query)
 
-    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, page)
+    url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, page)
     #print(request)#
     result = []
     try:
-        response = requests.get(request, verify=False)
-        resp = response.text
-        resp = json.loads(resp)
-        if resp["error"]:
+        resp = GET_and_parse_json(url, verify=False)
+
+        if resp.error:
             logger.error(resp.text)
-        if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
+        else: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
             for item in resp.get('results'):
                 #print(item)
                 result.append(item[0])
