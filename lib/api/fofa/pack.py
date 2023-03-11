@@ -20,7 +20,7 @@ def check(email, key):
         auth_url = "https://fofa.info/api/v1/info/my?email={0}&key={1}".format(email, key)
         try:
             response = requests.get(auth_url, verify=False)
-            if response.status_code == 200:
+            if '"error":true' in response.text:
                 return True
         except Exception as e:
             logger.error(e)
@@ -28,7 +28,8 @@ def check(email, key):
     return False
 
 
-def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能实现
+def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
+    page = offset + 1
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
@@ -43,7 +44,7 @@ def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能�
         logger.warning(msg)
         msg = 'Please input your FoFa Email and API Key below.'
         logger.info(msg)
-        email = raw_input("Fofa Email: ").strip()
+        email = input("Fofa Email: ").strip()
         key = getpass.getpass(prompt='Fofa API Key: ').strip()
         if not check(email, key):
             msg = 'Fofa API authorization failed, Please re-run it and enter a valid key.'
@@ -51,18 +52,20 @@ def FofaSearch(query, limit=100, offset=1):  # DONE 付费获取结果的功能�
 
     query = base64.b64encode(query)
 
-    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, offset)
+    request = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key, query, limit, page)
     #print(request)#
     result = []
     try:
         response = requests.get(request, verify=False)
         resp = response.text
         resp = json.loads(resp)
+        if resp["error"]:
+            logger.error(resp.text)
         if resp["error"] is False: # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
             for item in resp.get('results'):
                 #print(item)
                 result.append(item[0])
-            if resp.get('size') >= 100 and resp.get('size') > limit  : # real< limit
+            if resp.get('size') >= 100 and resp.get('size') > limit : # real< limit
                 logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
             else:# real < 100 or limit > real
                 logger.info("{0} items found!".format(resp.get('size')))
