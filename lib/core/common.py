@@ -36,7 +36,8 @@ def setPaths():
         os.mkdir(paths.DATA_PATH)
 
     paths.WEAK_PASS = os.path.join(paths.DATA_PATH, "pass100.txt")
-    paths.LARGE_WEAK_PASS = os.path.join(paths.DATA_PATH, "pass1000.txt")
+    paths.WEAK_PASS_somd5_10k = os.path.join(paths.DATA_PATH, "pass100.txt")
+    paths.LARGE_WEAK_PASS = os.path.join(paths.DATA_PATH, "top10k-somd5.txt")
     paths.UA_LIST_PATH = os.path.join(paths.DATA_PATH, "user-agents.txt")
 
     if os.path.isfile(paths.CONFIG_PATH) and os.path.isfile(paths.WEAK_PASS) and os.path.isfile(
