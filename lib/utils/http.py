@@ -7,6 +7,25 @@ import traceback
 import requests
 from lib.core.data import logger
 from lib.core.datatype import AttribDict
+from lib.utils.versioncheck import PYVERSION
+
+
+def urljoin_ex(url, path):
+    try:
+        if PYVERSION >= "3.0":
+            from urllib.parse import urljoin
+        else:
+            from urlparse import urljoin
+
+        return urljoin(url, path)
+
+    except:
+        return url.rstrip('/') + "/" + path.lstrip("/")
+
+
+def get_schemed_url(url):
+    schemed_url = url if '://' in url else 'http://' + url
+    return schemed_url
 
 
 def request(method, url, **kwargs):
