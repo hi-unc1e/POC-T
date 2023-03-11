@@ -33,11 +33,12 @@ def request(method, url, **kwargs):
     try:
         resp = requests.request(method, url, **kwargs)
 
-    except requests.exceptions.Timeout:
-        # ReadTimeout/ConnectTimeout
-        pass
+    # except requests.exceptions.Timeout or requests.exceptions.ConnectionError:
+    #     # ReadTimeout/ConnectTimeout
+    #     pass
 
     except:
+        pass
         logger.warning(traceback.format_exc())
 
     finally:
@@ -46,6 +47,8 @@ def request(method, url, **kwargs):
 
 def _is_valid_json_resp(resp):
     ret = False
+    if not resp:
+        return ret
     try:
         _text = resp.text
         _json = json.loads(_text)
