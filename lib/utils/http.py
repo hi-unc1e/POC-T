@@ -33,7 +33,8 @@ def request(method, url, **kwargs):
     try:
         resp = requests.request(method, url, **kwargs)
 
-    except requests.exceptions.ConnectTimeout:
+    except requests.exceptions.Timeout:
+        # ReadTimeout/ConnectTimeout
         pass
 
     except:
