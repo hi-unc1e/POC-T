@@ -35,13 +35,13 @@ def setPaths():
     if not os.path.exists(paths.DATA_PATH):
         os.mkdir(paths.DATA_PATH)
 
-    paths.WEAK_PASS = os.path.join(paths.DATA_PATH, "pass100.txt")
-    paths.WEAK_PASS_somd5_10k = os.path.join(paths.DATA_PATH, "pass100.txt")
-    paths.LARGE_WEAK_PASS = os.path.join(paths.DATA_PATH, "top10k-somd5.txt")
+    paths.WEAK_PASS_10 = os.path.join(paths.DATA_PATH, "pass10.txt")
+    paths.WEAK_PASS_100 = os.path.join(paths.DATA_PATH, "pass100.txt")
+    paths.WEAK_PASS_1000 = os.path.join(paths.DATA_PATH, "pass1000.txt")
+    paths.WEAK_PASS_10000 = os.path.join(paths.DATA_PATH, "top10k-somd5.txt")
     paths.UA_LIST_PATH = os.path.join(paths.DATA_PATH, "user-agents.txt")
 
-    if os.path.isfile(paths.CONFIG_PATH) and os.path.isfile(paths.WEAK_PASS) and os.path.isfile(
-            paths.LARGE_WEAK_PASS) and os.path.isfile(paths.UA_LIST_PATH):
+    if os.path.isfile(paths.CONFIG_PATH) and os.path.isfile(paths.WEAK_PASS_100) and os.path.isfile(paths.UA_LIST_PATH):
         pass
     else:
         msg = 'Some files missing, it may cause an issue.\n'

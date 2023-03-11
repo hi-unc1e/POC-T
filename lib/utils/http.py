@@ -33,6 +33,9 @@ def request(method, url, **kwargs):
     try:
         resp = requests.request(method, url, **kwargs)
 
+    except requests.exceptions.ConnectTimeout:
+        pass
+
     except:
         logger.warning(traceback.format_exc())
 
