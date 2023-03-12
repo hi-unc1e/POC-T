@@ -4,6 +4,7 @@
 # author = i@cdxy.me
 
 class CUSTOM_LOGGING:
+    DEBUG = 10
     SYSINFO = 9
     SUCCESS = 8
     ERROR = 7
