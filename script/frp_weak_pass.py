@@ -12,7 +12,6 @@ import hashlib
 import socket
 import binascii
 import traceback
-
 from lib.core.data import logger
 
 
@@ -75,5 +74,5 @@ def poc(url):
     return False
 
 
-if __name__ ==  '__main__':
+if __name__ == '__main__':
     poc("127.0.0.1:7000")
