@@ -35,12 +35,22 @@ except ImportError:  # Python 2
     import email.Utils as Utils
     import email.Message as Message
     import email.FeedParser as Feedparser
-import StringIO
+try:  # Python 3
+    from io import StringIO
+except ImportError:  # Python 2
+    from StringIO import StringIO
 import gzip
 import zlib
-import httplib
-import urlparse
-import urllib
+try:  # Python 3
+    import http.client as httplib
+except ImportError:  # Python 2
+    import httplib
+try:  # Python 3
+    from urllib.parse import urlparse
+    import urllib.request as urllib
+except ImportError:  # Python 2
+    import urlparse
+    import urllib
 import base64
 import os
 import copy
