@@ -106,8 +106,14 @@ except (AttributeError, ImportError):
         return httplib.FakeSocket(sock, ssl_sock)
 
 
-if sys.version_info >= (2,3):
+if sys.version_info >= (3, 0):
+    from urllib.parse import quote
+    def iri2uri(uri):
+        return quote(uri, safe='/:#[]@!$&\'()*+,;=?')
+
+elif sys.version_info >= (2, 3):
     from iri2uri import iri2uri
+
 else:
     def iri2uri(uri):
         return uri
