@@ -5,7 +5,7 @@
 
 
 import os
-import subprocess
+import platform
 
 VERSION = '2.0.6'
 PROJECT = "POC-T"
@@ -13,7 +13,7 @@ AUTHOR = 'cdxy'
 MAIL = 'i@cdxy.me'
 PLATFORM = os.name
 LICENSE = 'GPLv2'
-IS_WIN = subprocess.mswindows  # 3:_mswindows
+IS_WIN = platform.system() == 'Windows' # 3:_mswindows
 
 # essential methods/functions in custom scripts/PoC (such as function poc())
 ESSENTIAL_MODULE_METHODS = ['poc']
