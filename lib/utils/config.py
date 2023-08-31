@@ -3,7 +3,10 @@
 # project = https://github.com/Xyntax/POC-T
 # author = i@cdxy.me
 
-import ConfigParser
+try:  # Python 2
+    import ConfigParser
+except:  # Python 3
+    import configparser as ConfigParser
 from lib.core.data import paths, logger
 from lib.core.common import getSafeExString
 
