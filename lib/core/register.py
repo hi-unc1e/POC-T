@@ -85,8 +85,9 @@ class Register:
                     sys.exit(logger.error(self.mutex_errmsg))
 
     def __input_vector_check(self):
-        if type(self.stop) is types.IntType and type(self.start) is types.IntType and type(
-                self.mutex) is types.BooleanType:
+        # if type(self.stop) is types.IntType and type(self.start) is types.IntType and type(
+        #         self.mutex) is types.BooleanType:
+        if isinstance(self.stop, int) and isinstance(self.start, int) and isinstance(self.mutex, bool):
             pass
         else:
             raise RegisterValueException('Register init func type error')
