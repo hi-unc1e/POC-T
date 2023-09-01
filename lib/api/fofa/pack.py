@@ -34,6 +34,17 @@ def check(email, key):
     return False
 
 
+def get_fofa_query(query):
+    if PY2:
+        query_b = query
+    else:
+        query_b = stdoutencode(query)
+    query = base64.b64encode(query_b)
+    if isinstance(query, bytes):
+        query = query.decode()
+    return query
+
+
 def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
     page = offset + 1
     try:
@@ -55,12 +66,8 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
         if not check(email, key):
             msg = 'Fofa API authorization failed, Please re-run it and enter a valid key.'
             sys.exit(logger.error(msg))
-    if PY2:
-        query_b = query
-    else:
-        query_b = stdoutencode(query)
-    query = base64.b64encode(query_b)
 
+    query = get_fofa_query(query)
     url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,
                                                                                                        query, limit,
                                                                                                        page)
@@ -69,8 +76,10 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
 
     resp = GET_and_parse_json(url, verify=False)
 
-    if resp.error and hasattr(resp, "text"):
-        logger.error(resp.text)
+    if resp.error:
+        logger.error(query)
+        logger.error(resp)
+        exit()
 
     page = offset + 1
     url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,

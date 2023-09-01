@@ -53,7 +53,7 @@ def stdoutencode(data):
 
             retVal = output
         else:
-            retVal = data.encode(UNICODE_ENCODING) if isinstance(data, str) else data
+            retVal = data.encode() if isinstance(data, str) else data
     except UnicodeError:
         retVal = data.encode(UNICODE_ENCODING, "replace") if isinstance(data, str) else data
     return retVal
