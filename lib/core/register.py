@@ -68,7 +68,8 @@ class Register:
         self.__input_vector_check()
         for __target in self.targets:
             __trigger = __target.get('trigger')
-            if type(__trigger) is types.BooleanType or type(__trigger) is types.StringType:
+            # if type(__trigger) is types.BooleanType or type(__trigger) is types.StringType:
+            if isinstance(__trigger, bool) or isinstance(__trigger, str):
                 if __trigger:
                     self.verified.append(__target)
             else:

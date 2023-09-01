@@ -87,10 +87,11 @@ def dataToStdout(data, bold=False):
         if conf.ENGINE is ENGINE_MODE_STATUS.THREAD:
             logging._acquireLock()
 
-        if isinstance(data, unicode):
-            message = stdoutencode(data)
-        else:
+        if isinstance(data, str):
             message = data
+        # if isinstance(data, bytes):
+        else:
+            message = stdoutencode(data)
 
         sys.stdout.write(setColor(message, bold))
 
