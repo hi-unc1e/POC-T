@@ -4,6 +4,7 @@
 # author = i@cdxy.me
 
 import copy
+import logging
 import types
 from lib.core.exception import ToolkitDataException
 
@@ -41,7 +42,8 @@ class AttribDict(dict):
         try:
             return self.__getitem__(item)
         except KeyError:
-            raise ToolkitDataException("unable to access item '%s'" % item)
+            logging.warning(ToolkitDataException("unable to access item '%s'" % item))
+            return self.get(item)
 
     def __setattr__(self, item, value):
         """

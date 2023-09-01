@@ -6,6 +6,8 @@
 import sys
 
 import requests
+
+from lib.core.convert import stdoutencode
 from lib.core.data import paths, logger
 from lib.utils.config import ConfigFileParser
 from lib.utils.http import GET_and_parse_json
@@ -13,6 +15,8 @@ from lib.core.common import getSafeExString
 import getpass
 import base64
 import json
+
+from lib.utils.versioncheck import PY2
 
 
 def check(email, key):
@@ -51,8 +55,11 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
         if not check(email, key):
             msg = 'Fofa API authorization failed, Please re-run it and enter a valid key.'
             sys.exit(logger.error(msg))
-
-    query = base64.b64encode(query)
+    if PY2:
+        query_b = query
+    else:
+        query_b = stdoutencode(query)
+    query = base64.b64encode(query_b)
 
     url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,
                                                                                                        query, limit,
@@ -62,7 +69,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
 
     resp = GET_and_parse_json(url, verify=False)
 
-    if resp.error:
+    if resp.error and hasattr(resp, "text"):
         logger.error(resp.text)
 
     page = offset + 1
