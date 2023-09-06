@@ -13,3 +13,5 @@
 output
 *.xml
 .idea/workspace.xml
+data/Fofa/*.txt
+.vscode/
