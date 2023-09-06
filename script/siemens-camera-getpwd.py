@@ -26,7 +26,7 @@ def poc(url):
     target_url = get_domain(url) + payload
     try:
         r = requests.get(target_url, timeout=10)
-        if 'var Adm_Pass1' in r.content:
+        if 'var Adm_Pass1' in r.text:
             return target_url
     except Exception:
         pass

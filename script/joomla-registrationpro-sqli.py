@@ -31,7 +31,7 @@ def poc(url):
         target_url = url.rstrip('/') + payload
         try:
             r = requests.get(target_url, timeout=10)
-            if cipher in r.content:
+            if cipher in r.text:
                 return each
         except Exception as e:
             pass

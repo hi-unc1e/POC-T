@@ -55,7 +55,7 @@ def checkCDN(url):
 
     s = requests.session()
 
-    data1 = _get_static_post_attr(s.get(dest).content)
+    data1 = _get_static_post_attr(s.get(dest).text)
     data1['domain'] = url
     s.post('http://ce.cloud.360.cn/task', data=data1)
 
@@ -70,7 +70,7 @@ def checkCDN(url):
     data = 'domain=' + url + '&type=get&ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3&ids%5B%5D=4&ids%5B%5D=5&ids%5B%5D=6&ids%5B%5D=7&ids%5B%5D=8&ids%5B%5D=9&ids%5B%5D=16&ids%5B%5D=18&ids%5B%5D=22&ids%5B%5D=23&ids%5B%5D=41&ids%5B%5D=45&ids%5B%5D=46&ids%5B%5D=47&ids%5B%5D=49&ids%5B%5D=50&ids%5B%5D=54&ids%5B%5D=57&ids%5B%5D=58&ids%5B%5D=61&ids%5B%5D=62&ids%5B%5D=64&ids%5B%5D=71&ids%5B%5D=78&ids%5B%5D=79&ids%5B%5D=80&ids%5B%5D=93&ids%5B%5D=99&ids%5B%5D=100&ids%5B%5D=101&ids%5B%5D=103&ids%5B%5D=104&ids%5B%5D=106&ids%5B%5D=110&ids%5B%5D=112&ids%5B%5D=114&ids%5B%5D=116&ids%5B%5D=117&ids%5B%5D=118&ids%5B%5D=119&ids%5B%5D=120&ids%5B%5D=121&ids%5B%5D=122&user_ip_list='
     r = s.post('http://ce.cloud.360.cn/GetData/getTaskDatas', data=data, headers=headers)
 
-    ips = re.findall('"ip":"(.*?)"', r.content)
+    ips = re.findall('"ip":"(.*?)"', r.text)
     ans = list(set(ips))
     msg = url
 

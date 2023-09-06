@@ -32,7 +32,7 @@ def poc(base):
         if res1.status_code == 204 and res2.status_code == 200:
             if ENABLE_EXP:
                 return uri
-            return uri if put_data in res2.content else False
+            return uri if put_data in res2.text else False
     except Exception:
         return False
     return False

