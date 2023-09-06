@@ -212,10 +212,13 @@ def ApiRegister(args):
 
     if not 'API_MODE' in conf:
         return
-
     if not conf.API_DORK:
         msg = 'Empty API dork, show usage with [-h]'
         sys.exit(logger.error(msg))
+
+    else:
+        # log `query`
+        logger.info("Current query: %s" % conf.API_DORK)
 
     if offset < 0:
         msg = 'Invalid value in [--offset], show usage with [-h]'
