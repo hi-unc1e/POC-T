@@ -1,12 +1,17 @@
 # POC-T: *Pentest Over Concurrent Toolkit*
-[![Python 3.9](https://img.shields.io/badge/python-3.9-yellow.svg)](https://www.python.org/) [![Python 2.7](https://img.shields.io/badge/python-2.7-yellow.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv2-red.svg)](https://raw.githubusercontent.com/Xyntax/POC-T/master/doc/LICENSE.txt) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1413552d34bc4a4aa84539db1780eb56)](https://www.codacy.com/app/xyntax/POC-T?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Xyntax/POC-T&amp;utm_campaign=Badge_Grade) [![PoC/Scripts](https://img.shields.io/badge/PoC/Scripts-52-blue.svg)](https://github.com/Xyntax/POC-T/wiki/%E5%86%85%E7%BD%AE%E8%84%9A%E6%9C%AC%E5%BA%93) 
-ToDO:
-- Add quake API in [here](https://quake.360.cn/quake/#/help?id=5e77423bcb9954d2f8a01656&title=%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E)
-- `limit`参数到说明，没有加到 help doc中 
+[![Python 3.9](https://img.shields.io/badge/python-3.9-yellow.svg)](https://www.python.org/) [![Python 2.7](https://img.shields.io/badge/python-2.7-yellow.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv2-red.svg)](https://raw.githubusercontent.com/Xyntax/POC-T/master/doc/LICENSE.txt) [![PoC/Scripts](https://img.shields.io/badge/PoC/Scripts-100-blue.svg)](https://github.com/hi-unc1e/POC-T/wiki/%E5%86%85%E7%BD%AE%E8%84%9A%E6%9C%AC%E5%BA%93) 
+
+Roadmap:
+- [ ] 兼容pocSuite
+- [x] 已兼容Python3.x !
+
+
 
 脚本调用框架，用于渗透测试中 **采集|爬虫|爆破|批量PoC** 等需要并发的任务。  
 
-![banner.png](https://github.com/Xyntax/POC-T/blob/2.0/doc/banner.png) 
+
+![banner.png](doc/banner.png) 
+
 
 脚本收录 
 ------------------------------------------------------------------
@@ -25,7 +30,7 @@ ToDO:
 
 依赖
 ---
-* Python 2.7
+* Python 2.7 / 3.9
 * pip
 ```markdown
 python2 ./shodan-python-1.27.0/setup.py install
