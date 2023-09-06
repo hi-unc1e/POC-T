@@ -45,8 +45,9 @@ def get_fofa_query(query):
     return query
 
 
-def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
-    page = offset + 1
+def get_fofa_info_or_exit():
+    email = ""
+    key = ""
     try:
         msg = 'Trying to login with credentials in config file: %s.' % paths.CONFIG_PATH
         logger.info(msg)
@@ -65,42 +66,84 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
         key = getpass.getpass(prompt='Fofa API Key: ').strip()
         if not check(email, key):
             msg = 'Fofa API authorization failed, Please re-run it and enter a valid key.'
-            sys.exit(logger.error(msg))
+            logger.error(msg)
+            # sys.exit(logger.error(msg))
+    finally:
+        return email, key
 
-    query = get_fofa_query(query)
+
+def detect_http_or_https(ip, port):
+    host = "%s:%s" % (ip, port)
+    urls = ("https://%s" % host, "http://%s" % host)
+
+    for url in urls:
+        try:
+            response = requests.get(url, timeout=5, verify=False)
+            response.raise_for_status()
+            return url
+        except requests.RequestException:
+            continue
+
+    return None
+
+def get_http_url(url_or_hostPort):
+    """
+    :input
+        1.2.3.4:80
+        http://1.2.3.4:80/
+        1.2.3.4
+
+
+    :output
+    """
+    xstr = str(url_or_hostPort)
+
+    matches = {
+        "443": "https",
+        "80": "http"
+    }
+    if "//" not in xstr:
+        if xstr.__contains__("443"):
+            xstr = "https://" + xstr
+
+        elif xstr.__contains__("80"):
+            xstr = "http://" + xstr
+
+        else:
+            # 默认https
+            xstr = "https://" + xstr
+
+    xstr = xstr.rstrip('/')
+    return xstr
+
+
+def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
+    page = offset + 1
+    email, key = get_fofa_info_or_exit()
+
+    b64_query = get_fofa_query(query)
     url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,
-                                                                                                       query, limit,
+                                                                                                       b64_query, limit,
                                                                                                        page)
-    # print(request)#
-    result = []
-
     resp = GET_and_parse_json(url, verify=False)
 
-    if resp.error:
-        logger.error(query)
-        logger.error(resp)
+    # check err
+    if resp.error != False:
+        msg = "error! query: %s, resp: %s"  % (query, resp)
+        logger.error(msg)
         exit()
 
-    page = offset + 1
-    url = "https://fofa.info/api/v1/search/all?email={0}&key={1}&qbase64={2}&size={3}&page={4}".format(email, key,
-                                                                                                       query, limit,
-                                                                                                       page)
-    # print(request)#
+    # via page
     result = []
-    try:
-        response = requests.get(url, verify=False)
-        tex = response.text
-        resp = json.loads(tex)
-        logger.info("error:" + str(resp.get("error")))
-        if resp["error"] is False:  # /opt/POC-T/lib/api/fofa/pack.py:59turn none to false, fix no result to return!
-            for item in resp.get('results'):
-                # print(item)
-                result.append(item[0])
-            if resp.get('size') >= 100 and resp.get('size') > limit:  # real< limit
-                logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
-            else:  # real < 100 or limit > real
-                logger.info("{0} items found!".format(resp.get('size')))
-    except Exception as e:
-        sys.exit(logger.error(getSafeExString(e)))
-    finally:
-        return result
+
+    for item in resp.results:
+        # print(item)
+        url_or_hostPort = item[0]
+        url = get_http_url(url_or_hostPort)
+        result.append(url)
+    if resp.size >= 100 and resp.size > limit:  # real< limit
+        logger.info("{0} items found! {1} returned....".format(resp.get('size'), limit))
+    else:  # real < 100 or limit > real
+        logger.info("{0} items found!".format(resp.get('size')))
+
+    return result
