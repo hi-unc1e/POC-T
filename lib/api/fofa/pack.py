@@ -7,6 +7,7 @@ import sys
 
 import requests
 
+from lib.utils.http import get_http_url
 from lib.core.convert import stdoutencode
 from lib.core.data import paths, logger
 from lib.utils.config import ConfigFileParser
@@ -86,36 +87,6 @@ def detect_http_or_https(ip, port):
 
     return None
 
-def get_http_url(url_or_hostPort):
-    """
-    :input
-        1.2.3.4:80
-        http://1.2.3.4:80/
-        1.2.3.4
-
-
-    :output
-    """
-    xstr = str(url_or_hostPort)
-
-    matches = {
-        "443": "https",
-        "80": "http"
-    }
-    if "//" not in xstr:
-        if xstr.__contains__("443"):
-            xstr = "https://" + xstr
-
-        elif xstr.__contains__("80"):
-            xstr = "http://" + xstr
-
-        else:
-            # 默认https
-            xstr = "https://" + xstr
-
-    xstr = xstr.rstrip('/')
-    return xstr
-
 
 def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能实现
     page = offset + 1
@@ -128,7 +99,7 @@ def FofaSearch(query, limit=100, offset=0):  # DONE 付费获取结果的功能�
     resp = GET_and_parse_json(url, verify=False)
 
     # check err
-    if resp.error != False:
+    if resp and resp.error:
         msg = "error! query: %s, resp: %s"  % (query, resp)
         logger.error(msg)
         exit()
