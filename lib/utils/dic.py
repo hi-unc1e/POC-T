@@ -26,6 +26,7 @@ class Wordlist:
         "admin123",
         "Admin123",
         "000000",
+        "12345678",
         "1qaz2wsx",
         "admin!@#",
     ]
