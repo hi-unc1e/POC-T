@@ -11,6 +11,7 @@ from lib.utils.versioncheck import PYVERSION
 
 
 def urljoin_ex(url, path):
+    url = get_http_url(url)
     try:
         if PYVERSION >= "3.0":
             from urllib.parse import urljoin
@@ -23,23 +24,51 @@ def urljoin_ex(url, path):
         return url.rstrip('/') + "/" + path.lstrip("/")
 
 
-def get_schemed_url(url):
-    schemed_url = url if '://' in url else 'http://' + url
-    return schemed_url
+def get_http_url(url_or_hostPort):
+    """
+    :input
+        1.2.3.4:80
+        http://1.2.3.4:80/
+        1.2.3.4
 
 
-def request(method, url, **kwargs):
+    :output
+    """
+    xstr = str(url_or_hostPort)
+
+    matches = {
+        "443": "https",
+        "80": "http"
+    }
+    if "//" not in xstr:
+        if xstr.__contains__("443"):
+            xstr = "https://" + xstr
+
+        elif xstr.__contains__("80"):
+            xstr = "http://" + xstr
+
+        else:
+            # 默认https
+            xstr = "https://" + xstr
+
+    xstr = xstr.rstrip('/')
+    return xstr
+
+
+def request_ex(method, url, **kwargs):
     resp = None
     try:
+        kwargs["verify"] = False
         resp = requests.request(method, url, **kwargs)
 
-    # except requests.exceptions.Timeout or requests.exceptions.ConnectionError:
+    except requests.exceptions.Timeout or requests.exceptions.ConnectionError:
     #     # ReadTimeout/ConnectTimeout
-    #     pass
+        pass
+        logger.debug(traceback.format_exc())
 
     except:
         pass
-        logger.warning(traceback.format_exc())
+        logger.debug(traceback.format_exc())
 
     finally:
         return resp
@@ -62,7 +91,7 @@ def _is_valid_json_resp(resp):
 
 
 def request_and_parse_json(method, url, **kwargs):
-    resp = request(method, url, **kwargs)
+    resp = request_ex(method, url, **kwargs)
     if _is_valid_json_resp(resp):
         _dict = json.loads(resp.text)
         return AttribDict(_dict)
@@ -71,7 +100,7 @@ def request_and_parse_json(method, url, **kwargs):
 
 
 def GET_and_parse_json(url, **kwargs):
-    resp = request("GET", url, **kwargs)
+    resp = request_ex("GET", url, **kwargs)
     if _is_valid_json_resp(resp):
         _dict = json.loads(resp.text)
         return AttribDict(_dict)
