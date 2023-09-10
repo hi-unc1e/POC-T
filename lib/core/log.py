@@ -36,7 +36,7 @@ FORMATTER = logging.Formatter("\r[%(levelname)s] %(message)s", "%H:%M:%S")
 
 LOGGER_HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(LOGGER_HANDLER)
-LOGGER.setLevel(CUSTOM_LOGGING.WARNING)
+LOGGER.setLevel(CUSTOM_LOGGING.SYSINFO)
 
 
 class MY_LOGGER:

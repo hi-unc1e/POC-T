@@ -5,10 +5,10 @@
 
 class CUSTOM_LOGGING:
     DEBUG = 10
-    SYSINFO = 9
-    SUCCESS = 8
-    ERROR = 7
-    WARNING = 6
+    SYSINFO = 20
+    SUCCESS = 30
+    ERROR = 40
+    WARNING = 50
 
 
 class CONTENT_STATUS:
