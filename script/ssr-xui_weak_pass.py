@@ -29,14 +29,14 @@ def poc(url):
     url = get_http_url(url)
     login_url = urljoin_ex(url, "/login")
 
-    for pwd in Wordlist.top_10_pass:
+    for pwd in Wordlist.small_pass:
         poster = {
             "username": "admin",
             "password": pwd
         }
         resp = request_ex("post", login_url, json=poster, timeout=8)
         if _is_valid_login(resp):
-            msg = "%s\t%s" % (url, json.dumps(poster))
+            msg = "%s\t%s\t%s" % (url, json.dumps(poster), resp.elapsed.total_seconds())
             return msg
         else:
             continue
