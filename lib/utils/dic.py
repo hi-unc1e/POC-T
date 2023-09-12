@@ -19,6 +19,11 @@ def _read_dict(path):
 
 
 class Wordlist:
+    small_pass = [
+        "admin",
+        "admin123",
+        "123456"
+    ]
     top_10_pass = [
         "admin",
         "a123456",
