@@ -59,7 +59,7 @@ def request_ex(method, url, **kwargs):
     resp = None
     try:
         kwargs["verify"] = False
-        resp = requests.request(method, url, **kwargs)
+        resp = requests.request(method, url, timeout=15, **kwargs)
 
     except requests.exceptions.Timeout or requests.exceptions.ConnectionError:
     #     # ReadTimeout/ConnectTimeout
