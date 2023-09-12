@@ -4,6 +4,9 @@
 Roadmap:
 - [ ] 兼容pocSuite
 - [x] 已兼容Python3.x !
+- [x] PoC更好管理。现支持搜索script/的二级目录了！如`script/weakpass/xxx.py`
+  - 依然用`-s xxx.py`调用
+  - 文件夹名字不能以`.`/`_`/`-`开头
 
 
 

@@ -17,12 +17,46 @@ from lib.controller.api import runApi
 from thirdparty.IPy import IPy
 
 
+def list_directories(path):
+    return [name for name in os.listdir(path)
+            if os.path.isdir(os.path.join(path, name))]
+
+
+def remove_invalid_dirs(dirnames):
+    for dir in dirnames:
+        if dir.startswith("."):
+            dirnames.remove(dir)
+        if dir.startswith("_"):
+            dirnames.remove(dir)
+        if dir.startswith("-"):
+            dirnames.remove(dir)
+
+    return dirnames
+
+
+def get_search_path_list():
+    """返回script目录及子目录列表
+    - 目录不能以"."开头
+    """
+    base_dir = paths.SCRIPT_PATH
+    dirs = [base_dir]
+
+    # get all the dir name start with x:
+    all_dir = list_directories(base_dir)
+    valid_dir = remove_invalid_dirs(all_dir)
+    for each in valid_dir:
+        the_dir = os.path.join(base_dir, each)
+        dirs.append(the_dir)
+    return dirs
+
+
 def loadModule():
     _name = conf.MODULE_NAME
     msg = 'Load custom script: %s' % _name
     logger.success(msg)
-
-    fp, pathname, description = imp.find_module(os.path.splitext(_name)[0], [paths.SCRIPT_PATH])
+    module_name = os.path.splitext(_name)[0]
+    path_list = get_search_path_list()
+    fp, pathname, description = imp.find_module(module_name, path_list)
     try:
         th.module_obj = imp.load_module("_", fp, pathname, description)
         for each in ESSENTIAL_MODULE_METHODS:
