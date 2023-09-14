@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # author = unc1e
 import json
+import re
 import traceback
 
 import requests
@@ -22,6 +23,12 @@ def urljoin_ex(url, path):
 
     except:
         return url.rstrip('/') + "/" + path.lstrip("/")
+
+
+def get_title(resp):
+    title = re.findall("<title>(.+?)</title>", resp.text, re.MULTILINE)
+    if title:
+        return title
 
 
 def get_http_url(url_or_hostPort):
