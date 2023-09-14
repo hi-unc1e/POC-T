@@ -56,24 +56,31 @@ def get_http_url(url_or_hostPort):
 
 
 def request_ex(method, url, **kwargs):
+    """
+    使用`debug=True`来调试！
+    """
     resp = None
+    debug = kwargs.pop("debug", False)
     try:
         kwargs["verify"] = False
         kwargs["timeout"] = 15
         resp = requests.request(method, url, **kwargs)
 
     except requests.exceptions.Timeout:
-        logger.warning("Timeout error")
-        logger.warning(traceback.format_exc())
+        if debug:
+            logger.warning("Timeout error")
+            logger.warning(traceback.format_exc())
 
     except requests.exceptions.ConnectionError:
     #     # ReadTimeout/ConnectTimeout
-        logger.warning("ConnectionError")
-        logger.warning(traceback.format_exc())
+        if debug:
+            logger.warning("ConnectionError")
+            logger.warning(traceback.format_exc())
 
     except:
-        logger.warning("ConnectionError")
-        logger.warning(traceback.format_exc())
+        if debug:
+            logger.warning("ConnectionError")
+            logger.warning(traceback.format_exc())
 
     finally:
         return resp
