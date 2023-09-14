@@ -59,16 +59,21 @@ def request_ex(method, url, **kwargs):
     resp = None
     try:
         kwargs["verify"] = False
-        resp = requests.request(method, url, timeout=15, **kwargs)
+        kwargs["timeout"] = 15
+        resp = requests.request(method, url, **kwargs)
 
-    except requests.exceptions.Timeout or requests.exceptions.ConnectionError:
+    except requests.exceptions.Timeout:
+        logger.warning("Timeout error")
+        logger.warning(traceback.format_exc())
+
+    except requests.exceptions.ConnectionError:
     #     # ReadTimeout/ConnectTimeout
-        pass
-        logger.debug(traceback.format_exc())
+        logger.warning("ConnectionError")
+        logger.warning(traceback.format_exc())
 
     except:
-        pass
-        logger.debug(traceback.format_exc())
+        logger.warning("ConnectionError")
+        logger.warning(traceback.format_exc())
 
     finally:
         return resp
