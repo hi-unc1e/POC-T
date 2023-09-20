@@ -5,7 +5,7 @@
 @Contact :   lihanwei@zhiqiansec.com
 @DateTime :  2023/5/13 11:39 
 '''
-from urlparse import urljoin
+from lib.utils.http import request_ex, get_http_url, urljoin_ex
 
 import requests
 import json
@@ -19,7 +19,7 @@ fid="qObSo5JrR9FIkIqprX7XKg=="
 def is_chat_api_valid(url):
     prompt="中国的首都在哪里?"
     kw = "北京"
-    url = urljoin(url, "/chat-process")
+    url = urljoin_ex(url, "/chat-process")
     headers = {"Content-Type": "application/json"}
     payload = {
         "prompt": prompt,
