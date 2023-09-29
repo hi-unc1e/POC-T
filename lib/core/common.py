@@ -23,7 +23,7 @@ def setPaths():
     """
     Sets absolute paths for project directories and files
     """
-    root_path = paths.ROOT_PATH
+    root_path = paths.ROOT_PATH if paths.ROOT_PATH else os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     paths.DATA_PATH = os.path.join(root_path, "data")
     paths.SCRIPT_PATH = os.path.join(root_path, "script")
     paths.OUTPUT_PATH = os.path.join(root_path, "output")
