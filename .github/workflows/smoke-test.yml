@@ -25,3 +25,5 @@ jobs:
     - name: Run smoke tests
       run: |
         python POC-T.py -h
+        python -v POC-T.py -s rsync-weakpass -aF "protocol=rsync"
+
