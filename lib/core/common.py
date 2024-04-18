@@ -46,7 +46,7 @@ def setPaths():
     else:
         msg = 'Some files missing, it may cause an issue.\n'
         msg += 'Please use \'--update\' to get the complete program from github.com.'
-        raise ToolkitMissingPrivileges(msg)
+        logger.warning("ToolkitMissingPrivileges: %s" % msg)
 
 
 def checkFile(filename):
