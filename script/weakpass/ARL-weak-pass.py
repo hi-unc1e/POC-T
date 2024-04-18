@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   ARL-weak-pass.py
-@Contact :   lihanwei@zhiqiansec.com
 @DateTime :  2023/7/17 18:11
 
 

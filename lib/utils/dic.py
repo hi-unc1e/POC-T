@@ -6,7 +6,6 @@
 
 from lib.core.common import setPaths, paths
 
-setPaths()
 
 
 def _read_dict(path):
@@ -19,6 +18,7 @@ def _read_dict(path):
 
 
 class Wordlist:
+    setPaths()
     small_pass = [
         "admin",
         "admin123",

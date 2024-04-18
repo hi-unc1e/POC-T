@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   afp.py    
-@Contact :   lihanwei@zhiqiansec.com
 @DateTime :  2022/9/20 11:34 PM 
 '''
 

@@ -2,7 +2,6 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   chatgpt_public.py    
-@Contact :   lihanwei@zhiqiansec.com
 @DateTime :  2023/5/13 11:39 
 '''
 from lib.utils.http import request_ex, get_http_url, urljoin_ex

@@ -2,7 +2,8 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-yellow.svg)](https://www.python.org/) [![Python 2.7](https://img.shields.io/badge/python-2.7-yellow.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv2-red.svg)](https://raw.githubusercontent.com/Xyntax/POC-T/master/doc/LICENSE.txt) [![PoC/Scripts](https://img.shields.io/badge/PoC/Scripts-100-blue.svg)](https://github.com/hi-unc1e/POC-T/wiki/%E5%86%85%E7%BD%AE%E8%84%9A%E6%9C%AC%E5%BA%93) 
 
 Roadmap:
-- [ ] 兼容pocSuite
+- TODO 兼容pocSuite
+- TODO 兼容Nuclei YAML
 - [x] 已兼容Python3.x !
 - [x] PoC更好管理。现支持搜索script/的二级目录了！如`script/weakpass/xxx.py`
   - 依然用`-s xxx.py`调用

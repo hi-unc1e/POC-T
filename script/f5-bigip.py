@@ -4,7 +4,6 @@
 '''
 @File    :   f5-bigip.py
 @Datetime:   2022/5/10 16:06
-@Contact :   lihanwei@zhiqiansec.com
 @Descriptions
     -
 '''

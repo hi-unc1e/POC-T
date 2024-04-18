@@ -11,7 +11,15 @@
 .tox
 .idea/*
 output
+output/*
 *.xml
 .idea/workspace.xml
 data/Fofa/*.txt
+data/Quake/*.txt
+data/Hunter/*.txt
+data/Zoomeye/*.txt
+data/*/*
+.run/*
 .vscode/
+*__pycache__*
+*.idea/*
