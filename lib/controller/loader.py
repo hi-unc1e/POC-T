@@ -7,7 +7,10 @@ try:
 except ImportError:
     import queue as Queue
 import sys
-import imp
+try:
+    import imp
+except:
+    import importlib as imp
 import os
 from lib.core.data import th, conf, logger, paths
 from lib.core.enums import API_MODE_NAME, TARGET_MODE_STATUS
