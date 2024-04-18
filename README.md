@@ -1,14 +1,14 @@
 # POC-T: *Pentest Over Concurrent Toolkit*
+
 [![Python 3.9](https://img.shields.io/badge/python-3.9-yellow.svg)](https://www.python.org/) [![Python 2.7](https://img.shields.io/badge/python-2.7-yellow.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv2-red.svg)](https://raw.githubusercontent.com/Xyntax/POC-T/master/doc/LICENSE.txt) [![PoC/Scripts](https://img.shields.io/badge/PoC/Scripts-100-blue.svg)](https://github.com/hi-unc1e/POC-T/wiki/%E5%86%85%E7%BD%AE%E8%84%9A%E6%9C%AC%E5%BA%93) 
 
 Roadmap:
-- TODO 兼容pocSuite
-- TODO 兼容Nuclei YAML
-- [x] 已兼容Python3.x !
+- [ ] 兼容pocSuite
+- [ ] 兼容Nuclei YAML
+- [x] 已兼容Python3.x ! 直接跑。
 - [x] PoC更好管理。现支持搜索script/的二级目录了！如`script/weakpass/xxx.py`
   - 依然用`-s xxx.py`调用
   - 文件夹名字不能以`.`/`_`/`-`开头
-
 
 
 脚本调用框架，用于渗透测试中 **采集|爬虫|爆破|批量PoC** 等需要并发的任务。  
@@ -58,6 +58,6 @@ sudo yum -y install python-devel
 
 联系作者
 ----
-* mail:i@cdxy.me  
-
+* 原作者（已暂停更新）mail:i@cdxy.me  
+* 现作者 mail: root@zuoxueba.org
   
