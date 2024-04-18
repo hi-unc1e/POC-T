@@ -12,6 +12,7 @@ logging.addLevelName(CUSTOM_LOGGING.SYSINFO, "*")
 logging.addLevelName(CUSTOM_LOGGING.SUCCESS, "+")
 logging.addLevelName(CUSTOM_LOGGING.ERROR, "-")
 logging.addLevelName(CUSTOM_LOGGING.WARNING, "!")
+logging.addLevelName(CUSTOM_LOGGING.DEBUG, " ")
 
 LOGGER = logging.getLogger("TookitLogger")
 
@@ -35,7 +36,7 @@ FORMATTER = logging.Formatter("\r[%(levelname)s] %(message)s", "%H:%M:%S")
 
 LOGGER_HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(LOGGER_HANDLER)
-LOGGER.setLevel(CUSTOM_LOGGING.WARNING)
+LOGGER.setLevel(CUSTOM_LOGGING.SYSINFO)
 
 
 class MY_LOGGER:
@@ -54,3 +55,7 @@ class MY_LOGGER:
     @staticmethod
     def error(msg):
         return LOGGER.log(CUSTOM_LOGGING.ERROR, msg)
+
+    @staticmethod
+    def debug(msg):
+        return LOGGER.log(CUSTOM_LOGGING.DEBUG, msg)

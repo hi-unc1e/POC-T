@@ -81,7 +81,7 @@ def run():
         monkey.patch_all()
         import gevent
         while th.queue.qsize() > 0 and th.is_continue:
-            gevent.joinall([gevent.spawn(scan) for i in xrange(0, th.threads_num) if
+            gevent.joinall([gevent.spawn(scan) for i in range(0, th.threads_num) if
                             th.queue.qsize() > 0])
 
     dataToStdout('\n')

@@ -1,3 +1,4 @@
 requests
 gevent
 google-api-python-client
+shodan==1.27.0

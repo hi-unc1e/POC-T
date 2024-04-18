@@ -23,7 +23,7 @@ def setPaths():
     """
     Sets absolute paths for project directories and files
     """
-    root_path = paths.ROOT_PATH
+    root_path = paths.ROOT_PATH if paths.ROOT_PATH else os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     paths.DATA_PATH = os.path.join(root_path, "data")
     paths.SCRIPT_PATH = os.path.join(root_path, "script")
     paths.OUTPUT_PATH = os.path.join(root_path, "output")
@@ -35,12 +35,13 @@ def setPaths():
     if not os.path.exists(paths.DATA_PATH):
         os.mkdir(paths.DATA_PATH)
 
-    paths.WEAK_PASS = os.path.join(paths.DATA_PATH, "pass100.txt")
-    paths.LARGE_WEAK_PASS = os.path.join(paths.DATA_PATH, "pass1000.txt")
+    paths.WEAK_PASS_10 = os.path.join(paths.DATA_PATH, "pass10.txt")
+    paths.WEAK_PASS_100 = os.path.join(paths.DATA_PATH, "pass100.txt")
+    paths.WEAK_PASS_1000 = os.path.join(paths.DATA_PATH, "pass1000.txt")
+    paths.WEAK_PASS_10000 = os.path.join(paths.DATA_PATH, "top10k-somd5.txt")
     paths.UA_LIST_PATH = os.path.join(paths.DATA_PATH, "user-agents.txt")
 
-    if os.path.isfile(paths.CONFIG_PATH) and os.path.isfile(paths.WEAK_PASS) and os.path.isfile(
-            paths.LARGE_WEAK_PASS) and os.path.isfile(paths.UA_LIST_PATH):
+    if os.path.isfile(paths.CONFIG_PATH) and os.path.isfile(paths.WEAK_PASS_100) and os.path.isfile(paths.UA_LIST_PATH):
         pass
     else:
         msg = 'Some files missing, it may cause an issue.\n'
@@ -86,10 +87,11 @@ def dataToStdout(data, bold=False):
         if conf.ENGINE is ENGINE_MODE_STATUS.THREAD:
             logging._acquireLock()
 
-        if isinstance(data, unicode):
-            message = stdoutencode(data)
-        else:
+        if isinstance(data, str):
             message = data
+        # if isinstance(data, bytes):
+        else:
+            message = stdoutencode(data)
 
         sys.stdout.write(setColor(message, bold))
 

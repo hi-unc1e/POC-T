@@ -12,8 +12,26 @@ def singleTimeWarnMessage(message):  # Cross-linked function
     sys.stdout.write("\n")
     sys.stdout.flush()
 
+def stdoutDecode(data):
+    """
+    decode to str
+    """
+    retVal = data
+    if isinstance(data, str):
+        return retVal
+    else:
+        try:
+            retVal = data.decode(sys.stdout.encoding)
+        except Exception:
+            retVal = data.decode(UNICODE_ENCODING) if isinstance(data, bytes) else data
+    return retVal
 
 def stdoutencode(data):
+    """
+    Encodes unicode data to stdout encoding
+    input: str/unicode
+    output: bytes
+    """
     retVal = None
 
     try:
@@ -35,8 +53,7 @@ def stdoutencode(data):
 
             retVal = output
         else:
-            retVal = data.encode(sys.stdout.encoding)
-    except Exception:
-        retVal = data.encode(UNICODE_ENCODING) if isinstance(data, unicode) else data
-
+            retVal = data.encode() if isinstance(data, str) else data
+    except UnicodeError:
+        retVal = data.encode(UNICODE_ENCODING, "replace") if isinstance(data, str) else data
     return retVal

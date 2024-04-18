@@ -4,10 +4,11 @@
 # author = i@cdxy.me
 
 class CUSTOM_LOGGING:
-    SYSINFO = 9
-    SUCCESS = 8
-    ERROR = 7
-    WARNING = 6
+    DEBUG = 10
+    SYSINFO = 20
+    SUCCESS = 30
+    ERROR = 40
+    WARNING = 50
 
 
 class CONTENT_STATUS:

@@ -7,6 +7,8 @@ import os
 import glob
 import time
 import sys
+
+from lib.controller.loader import get_search_path_list
 from lib.core.data import conf, paths, th, logger
 from lib.core.enums import TARGET_MODE_STATUS, ENGINE_MODE_STATUS
 from lib.utils.update import update
@@ -68,6 +70,15 @@ def EngineRegister(args):
         sys.exit(logger.error(msg))
 
 
+def try_get_script_path(input_path):
+    dirs = get_search_path_list()
+    for each in dirs:
+        _path = os.path.join(each, input_path)
+        if os.path.isfile(_path):
+            abs_path = os.path.abspath(_path)
+            return abs_path
+
+
 def ScriptRegister(args):
     input_path = args.script_name
 
@@ -97,10 +108,11 @@ def ScriptRegister(args):
     else:
         if not input_path.endswith('.py'):
             input_path += '.py'
-        _path = os.path.abspath(os.path.join(paths.SCRIPT_PATH, input_path))
-        if os.path.isfile(_path):
-            conf.MODULE_NAME = input_path
-            conf.MODULE_FILE_PATH = os.path.abspath(_path)
+        conf.MODULE_NAME = input_path
+        # try find in ./script/**/*
+        module_file_path = try_get_script_path(input_path)
+        if os.path.isfile(module_file_path):
+            conf.MODULE_FILE_PATH = module_file_path
         else:
             msg = 'Script [%s] not exist. Use [--show] to view all available script in ./script/' % input_path
             sys.exit(logger.error(msg))
@@ -212,10 +224,13 @@ def ApiRegister(args):
 
     if not 'API_MODE' in conf:
         return
-
     if not conf.API_DORK:
         msg = 'Empty API dork, show usage with [-h]'
         sys.exit(logger.error(msg))
+
+    else:
+        # log `query`
+        logger.info("Current query: %s" % conf.API_DORK)
 
     if offset < 0:
         msg = 'Invalid value in [--offset], show usage with [-h]'

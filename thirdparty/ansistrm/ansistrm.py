@@ -5,7 +5,7 @@ import logging
 import os
 import re
 
-from lib.core.convert import stdoutencode
+from lib.core.convert import stdoutencode, stdoutDecode
 
 
 class ColorizingStreamHandler(logging.StreamHandler):
@@ -22,16 +22,8 @@ class ColorizingStreamHandler(logging.StreamHandler):
     }
 
     # levels to (background, foreground, bold/intense)
-    if os.name == 'nt':
-        level_map = {
-            logging.DEBUG: (None, 'blue', False),
-            logging.INFO: (None, 'green', False),
-            logging.WARNING: (None, 'yellow', False),
-            logging.ERROR: (None, 'red', False),
-            logging.CRITICAL: ('red', 'white', False)
-        }
-    else:
-        level_map = {
+
+    level_map = {
             logging.DEBUG: (None, 'blue', False),
             logging.INFO: (None, 'green', False),
             logging.WARNING: (None, 'yellow', False),
@@ -55,6 +47,7 @@ class ColorizingStreamHandler(logging.StreamHandler):
             if not self.is_tty:
                 if message and message[0] == "\r":
                     message = message[1:]
+                message = stdoutDecode(message)
                 stream.write(message)
             else:
                 self.output_colorized(message)
@@ -70,6 +63,8 @@ class ColorizingStreamHandler(logging.StreamHandler):
 
     if os.name != 'nt':
         def output_colorized(self, message):
+            if not isinstance(message, str):
+                message = stdoutDecode(message)
             self.stream.write(message)
     else:
         ansi_esc = re.compile(r'\x1b\[((?:\d+)(?:;(?:\d+))*)m')

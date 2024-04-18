@@ -68,7 +68,8 @@ class Register:
         self.__input_vector_check()
         for __target in self.targets:
             __trigger = __target.get('trigger')
-            if type(__trigger) is types.BooleanType or type(__trigger) is types.StringType:
+            # if type(__trigger) is types.BooleanType or type(__trigger) is types.StringType:
+            if isinstance(__trigger, bool) or isinstance(__trigger, str):
                 if __trigger:
                     self.verified.append(__target)
             else:
@@ -85,8 +86,9 @@ class Register:
                     sys.exit(logger.error(self.mutex_errmsg))
 
     def __input_vector_check(self):
-        if type(self.stop) is types.IntType and type(self.start) is types.IntType and type(
-                self.mutex) is types.BooleanType:
+        # if type(self.stop) is types.IntType and type(self.start) is types.IntType and type(
+        #         self.mutex) is types.BooleanType:
+        if isinstance(self.stop, int) and isinstance(self.start, int) and isinstance(self.mutex, bool):
             pass
         else:
             raise RegisterValueException('Register init func type error')

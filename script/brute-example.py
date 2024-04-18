@@ -64,7 +64,7 @@ def poc(i):
             s = requests.session()
             s.get(url=url)
             r = s.post(url=url, data=d)
-            if not len(r.content) == 1809:
+            if not len(r.text) == 1809:
                 return True
         return False
     except Exception as e:

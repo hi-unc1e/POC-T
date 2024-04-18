@@ -29,7 +29,7 @@ def poc(url):
         target = each.rstrip('/') + payload
         try:
             r = requests.get(target, timeout=20)
-            if r.status_code == 200 and cipher in r.content:
+            if r.status_code == 200 and cipher in r.text:
                 return url
         except Exception:
             pass  # 从break改为pass增加10%结果

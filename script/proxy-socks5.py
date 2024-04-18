@@ -18,7 +18,7 @@ def poc(url):
     try:
         r = requests.get(url=URL, headers=headers, proxies=PROXY, timeout=3, verify=False)
         rr = requests.get(url=URL_BAIDU, headers=headers, proxies=PROXY, timeout=3, verify=False)
-        if CONTENT in r.content and CONTENT_BAIDU in rr.content:
+        if CONTENT in r.text and CONTENT_BAIDU in rr.text:
             #print(r.content)
             return url
 
