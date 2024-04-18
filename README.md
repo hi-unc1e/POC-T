@@ -36,8 +36,12 @@ Roadmap:
 ---
 * Python 2.7 / 3.9
 * pip
+
 ```markdown
-python2 ./shodan-python-1.27.0/setup.py install
+cd  ./shodan-python-1.27.0/
+python3 setup.py  install
+
+pip intall -r requirements.txt
 
 sudo yum -y install python-devel
 ```
