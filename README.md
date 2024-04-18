@@ -41,7 +41,7 @@ Roadmap:
 cd  ./shodan-python-1.27.0/
 python3 setup.py  install
 
-pip intall -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 sudo yum -y install python-devel
 ```
