@@ -23,3 +23,5 @@ data/*/*
 .vscode/
 *__pycache__*
 *.idea/*
+
+toolkit.conf
