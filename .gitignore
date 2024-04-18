@@ -10,6 +10,7 @@
 .svn
 .tox
 .idea/*
+.idea
 clean.sh
 output
 output/*
